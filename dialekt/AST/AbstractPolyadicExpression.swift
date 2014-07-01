@@ -1,17 +1,9 @@
-//
-//  AbstractPolyadicOperator.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 25/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
+// A base class providing common functionality for polyadic operators.
 class AbstractPolyadicExpression: AbstractExpression {
     var _children = ExpressionProtocol[]()
 
     init(args: ExpressionProtocol[]) {
+        super.init()
         for expression in args {
             self.add(expression)
         }
@@ -34,5 +26,6 @@ class AbstractPolyadicExpression: AbstractExpression {
     // Required to conform to NodeProtocol
     override func accept(visitor: VisitorProtocol) -> Any {
         assert(false, "This method must be overriden by the subclass.")
+        return nil
     }
 }

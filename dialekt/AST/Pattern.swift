@@ -1,13 +1,4 @@
-//
-//  Pattern.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 1/07/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
+// An AST node that represents a pattern-match expression.
 class Pattern: AbstractExpression, ExpressionProtocol {
     var _children = PatternChildProtocol[]()
     
@@ -21,17 +12,17 @@ class Pattern: AbstractExpression, ExpressionProtocol {
         self.init(args: args)
     }
     
-    // Add a child expression to this operator.
+    // Add a child to this node.
     func add(expression: PatternChildProtocol) {
         _children.append(expression)
     }
     
-    // Fetch an array of this operator's children.
+    // Fetch an array of this node's children.
     func children() -> PatternChildProtocol[] {
         return _children
     }
     
-    // Required to conform to NodeProtocol
+    // Pass this node to the appropriate method on the given visitor.
     override func accept(visitor: VisitorProtocol) -> Any {
         return visitor.visitPattern(self)
     }

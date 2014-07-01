@@ -1,21 +1,13 @@
+// An AST node that is an expression.
 //
-//  ExpressionProtocol.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 25/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
+// Not all nodes in the tree represent an entire (sub-)expression.
 protocol ExpressionProtocol: NodeProtocol {
-    // Fetch the original source code of this expression.
-    func source() -> String
+    // Fetch the first token from the source that is part of this expression.
+    func firstToken() -> Token?
     
-    // Fetch the index of the first character of this expression in the source code.
-    func sourceOffset() -> Int
+    // Fetch the last token from the source that is part of this expression.
+    func lastToken() -> Token?
     
-    // Indiciates whether or not the expression contains information about the
-    // original source of the expression.
-    func hasSource() -> Bool
+    // Set the delimiting tokens for this expression.
+    func setTokens(firstToken: Token, lastToken: Token)
 }

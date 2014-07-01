@@ -1,13 +1,3 @@
-//
-//  ExpressionResult.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 30/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
 // The result for an invidiual expression in the AST.
 class ExpressionResult {
     let _expression: ExpressionProtocol

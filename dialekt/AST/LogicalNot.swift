@@ -1,16 +1,7 @@
-//
-//  LogicalNot.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 28/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
-class LogicalNot: AbstractExpression, ExpressionProtocol {
+// An AST node that represents the logical NOT operator.
+class LogicalNot: AbstractExpression {
     let _child: ExpressionProtocol
-    
+
     init(child: ExpressionProtocol) {
         _child = child
     }

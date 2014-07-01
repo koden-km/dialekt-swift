@@ -1,13 +1,3 @@
-//
-//  Evaluator.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 30/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
 class Evaluator: EvaluatorProtocol, VisitorProtocol {
     let _caseSensitive: Bool
     let _emptyIsWildcard: Bool
@@ -24,7 +14,10 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
         _tags = tags.copy()
         _expressionResults.removeAll(keepCapacity: true)
         
-        let result = EvaluationResult(expression.accept(self).isMatch(), _expressionResults)
+        let result = EvaluationResult(
+            expression.accept(self).isMatch(),
+            _expressionResults
+        )
         
         _tags.removeAll(keepCapacity: true)
         _expressionResults.removeAll(keepCapacity: true)
@@ -33,12 +26,16 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
     }
     
     // Visit a LogicalAnd node.
-    func visitLogicalAnd(node: LogicalAnd) -> Any {
+    func visitLogicalAnd(node: LogicalAnd) -> ExpressionResult {
         var matchedTags = String[]()
         var isMatch = true
         
         for n in node.children() {
-            var result = n.accept(self)
+             var result = n.accept(self)
+
+// TODO: something like this?
+//            if var result = n.accept(self) as xxxxProtocol {
+//            }
             
             if !result.isMatch() {
                 isMatch = false
@@ -63,19 +60,17 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
 //            let expressionresult = ExpressionResult(node, isMatch, matchedTags, unmatchedTags)
 //            _expressionResults.append(expressionResult)
 
-        let expressionResult = ExpressionResult(
+        
+        return _createExpressionResult(
             expression: node,
             isMatch: isMatch,
             matchedTags: matchedTags,
             unmatchedTags: unmatchedTags
         )
-        _expressionResults.append(expressionResult)
-
-        return _expressionResults
     }
 
     // Visit a LogicalOr node.
-    func visitLogicalOr(node: LogicalOr) -> Any {
+    func visitLogicalOr(node: LogicalOr) -> ExpressionResult {
         var matchedTags = String[]()
         var isMatch = false
         
@@ -102,34 +97,28 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
             return true
         }
         
-        let expressionResult = ExpressionResult(
+        return _createExpressionResult(
             expression: node,
             isMatch: isMatch,
             matchedTags: matchedTags,
             unmatchedTags: unmatchedTags
         )
-        _expressionResults.append(expressionResult)
-        
-        return _expressionResults
     }
 
     // Visit a LogicalNot node.
-    func visitLogicalNot(node: LogicalNot) -> Any {
+    func visitLogicalNot(node: LogicalNot) -> ExpressionResult {
         let childResult = node.child().accept(self)
         
-        let expressionResult = ExpressionResult(
+        return _createExpressionResult(
             expression: node,
             isMatch: !childResult.isMatch(),
             matchedTags: childResult.unmatchedTags(),
             unmatchedTags: childResult.matchedTags()
         )
-        _expressionResults.append(expressionResult)
-        
-        return _expressionResults
     }
     
     // Visit a Tag node.
-    func visitTag(node: Tag) -> Any {
+    func visitTag(node: Tag) -> ExpressionResult {
         var predicate: (tag: String) -> Bool
         if _caseSensitive {
 //            predicate = func (tag) ...
@@ -141,7 +130,7 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
     }
     
     // Visit a pattern node.
-    func visitPattern(node: Pattern) -> Any {
+    func visitPattern(node: Pattern) -> ExpressionResult {
         var pattern = "/^"
         
         for n in node.children() {
@@ -169,29 +158,26 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
     }
 
     // Visit a PatternLiteral node.
-    func visitPatternLiteral(node: PatternLiteral) -> Any {
+    func visitPatternLiteral(node: PatternLiteral) -> String {
         return preg_quote(node.string(), "/")
     }
     
     // Visit a PatternWildcard node.
-    func visitPatternWildcard(node: PatternWildcard) -> Any {
+    func visitPatternWildcard(node: PatternWildcard) -> String {
         return ".*"
     }
 
     // Visit a EmptyExpression node.
-    func visitEmptyExpression(node: EmptyExpression) -> Any {
-        let expressionResult = ExpressionResult(
+    func visitEmptyExpression(node: EmptyExpression) -> ExpressionResult {
+        return _createExpressionResult(
             expression: node,
             isMatch: _emptyIsWildcard,
             matchedTags: _emptyIsWildcard ? _tags : String[](),
             unmatchedTags: _emptyIsWildcard ? String[]() : _tags
         )
-        _expressionResults.append(expressionResult)
-        
-        return _expressionResults
     }
     
-    func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult[] {
+    func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult {
         var matchedTags: String[]
         var unmatchedTags: String[]
         
@@ -203,14 +189,24 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
             }
         }
         
-        let expressionResult = ExpressionResult(
+        return _createExpressionResult(
             expression: expression,
             isMatch: matchedTags.count > 0,
             matchedTags: matchedTags,
             unmatchedTags: unmatchedTags
         )
-        _expressionResults.append(expressionResult)
+    }
+    
+    func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: String[], unmatchedTags: String[]) -> ExpressionResult {
+        let result = ExpressionResult(
+            expression: expression,
+            isMatch: isMatch,
+            matchedTags: matchedTags,
+            unmatchedTags: unmatchedTags
+        )
         
-        return _expressionResults
+        _expressionResults.append(result)
+        
+        return result
     }
 }

@@ -1,13 +1,4 @@
-//
-//  PatternLiteral.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 30/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
+// Represents a literal (exact-match) portion of a pattern expression.
 class PatternLiteral: PatternChildProtocol {
     let _string: String
     

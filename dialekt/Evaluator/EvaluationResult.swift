@@ -1,13 +1,3 @@
-//
-//  EvaluationResult.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 30/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
 // The overall result of the evaluation of an expression.
 class EvaluationResult {
     let _isMatch: Bool
@@ -17,7 +7,8 @@ class EvaluationResult {
         _isMatch = isMatch
         
         for result in expressionResults {
-            let key = result.expression().source() + ":" + result.expression().sourceOffset().description
+            //let key = result.expression().source() + ":" + result.expression().sourceOffset().description
+            let key = "TODO"
             _expressionResults[key] = result
         }
     }
@@ -29,7 +20,8 @@ class EvaluationResult {
     
     // Fetch the result for an individual expression node from the AST.
     func resultOf(expression: ExpressionProtocol) -> ExpressionResult {
-        let key = expression.source() + ":" + expression.sourceOffset().description
+        //let key = expression.source() + ":" + expression.sourceOffset().description
+        let key = "TODO"
         return _expressionResults[key]!
     }
 }

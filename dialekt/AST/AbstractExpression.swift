@@ -1,41 +1,27 @@
-//
-//  AbstractExpression.swift
-//  Dialekt-Test
-//
-//  Created by Kevin Millar on 28/06/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Foundation
-
+// A base class providing common functionality for expressions.
 class AbstractExpression: ExpressionProtocol {
-    var _source: String?
-    var _sourceOffset: Int?
-    
-    // Fetch the original source code of this expression.
-    func source() -> String {
-        return _source!
+    var _firstToken: Token?
+    var _lastToken: Token?
+
+    // Fetch the first token from the source that is part of this expression.
+    func firstToken() -> Token? {
+        return _firstToken
     }
-    
-    // Fetch the index of the first character of this expression in the source code.
-    func sourceOffset() -> Int {
-        return _sourceOffset!
+
+    // Fetch the last token from the source that is part of this expression.
+    func lastToken() -> Token? {
+        return _lastToken
     }
-    
-    // Indiciates whether or not the expression contains information about the
-    // original source of the expression.
-    func hasSource() -> Bool {
-        return _source != nil
-    }
-    
-    // Set the original source code of this expression.
-    func setSource(source: String, sourceOffset: Int) {
-        _source = source
-        _sourceOffset = sourceOffset
+
+    // Set the delimiting tokens for this expression.
+    func setTokens(firstToken: Token, lastToken: Token) {
+        _firstToken = firstToken
+        _lastToken = lastToken
     }
 
     // Required to conform to NodeProtocol
     func accept(visitor: VisitorProtocol) -> Any {
         assert(false, "This method must be overriden by the subclass.")
+        return nil
     }
 }
