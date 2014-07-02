@@ -6,6 +6,6 @@ class LogicalAnd: AbstractPolyadicExpression {
 
     // Pass this node to the appropriate method on the given visitor.
     override func accept(visitor: VisitorProtocol) -> Any {
-        visitor.visitLogicalAnd(self)
+        return visitor.visitLogicalAnd(self)
     }
 }

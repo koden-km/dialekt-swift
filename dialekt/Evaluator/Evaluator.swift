@@ -11,13 +11,27 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
     
     // Evaluate an expression against a set of tags.
     func evaluate(expression: ExpressionProtocol, tags: String[]) -> EvaluationResult {
-        _tags = tags.copy()
+        _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
+
+        
+//        let result = EvaluationResult(
+//            expressionResult.isMatch(),
+//            _expressionResults
+//        )
+
+        
+        var isMatch = false
+        if let expressionResult = expression.accept(self) as? ExpressionResult {
+            isMatch = expressionResult.isMatch()
+        }
         
         let result = EvaluationResult(
-            expression.accept(self).isMatch(),
-            _expressionResults
+            isMatch: isMatch,
+            expressionResults: _expressionResults
         )
+
+        
         
         _tags.removeAll(keepCapacity: true)
         _expressionResults.removeAll(keepCapacity: true)
@@ -48,8 +62,9 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
 
 //        let unmatchedTags = String[]()
         let unmatchedTags = _tags.filter() {
-            for tag in _tags {
-                if tag == includeElement {
+            tag in
+            for t in self._tags {
+                if t == tag {
                     return false
                 }
                 
@@ -62,7 +77,7 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
 
         
         return _createExpressionResult(
-            expression: node,
+            node,
             isMatch: isMatch,
             matchedTags: matchedTags,
             unmatchedTags: unmatchedTags
@@ -88,8 +103,9 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
             
 //        let unmatchedTags = String[]()
         let unmatchedTags = _tags.filter() {
-            for tag in _tags {
-                if tag == includeElement {
+            tag in
+            for t in self._tags {
+                if tag == t {
                     return false
                 }
                 
@@ -98,7 +114,7 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
         }
         
         return _createExpressionResult(
-            expression: node,
+            node,
             isMatch: isMatch,
             matchedTags: matchedTags,
             unmatchedTags: unmatchedTags
@@ -170,7 +186,7 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
     // Visit a EmptyExpression node.
     func visitEmptyExpression(node: EmptyExpression) -> ExpressionResult {
         return _createExpressionResult(
-            expression: node,
+            node,
             isMatch: _emptyIsWildcard,
             matchedTags: _emptyIsWildcard ? _tags : String[](),
             unmatchedTags: _emptyIsWildcard ? String[]() : _tags
@@ -190,7 +206,7 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
         }
         
         return _createExpressionResult(
-            expression: expression,
+            expression,
             isMatch: matchedTags.count > 0,
             matchedTags: matchedTags,
             unmatchedTags: unmatchedTags
