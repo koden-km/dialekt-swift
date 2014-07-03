@@ -12,7 +12,8 @@ class PatternLiteral: PatternChildProtocol {
     }
     
     // Pass this node to the appropriate method on the given visitor.
-    func accept(visitor: VisitorProtocol) -> Any {
+//    func accept(visitor: VisitorProtocol) -> Any {
+    func accept(visitor: VisitorProtocol) -> String {
         return visitor.visitPatternLiteral(self)
     }
 }

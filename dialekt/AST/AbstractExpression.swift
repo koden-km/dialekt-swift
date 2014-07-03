@@ -22,6 +22,14 @@ class AbstractExpression: ExpressionProtocol {
     // Required to conform to NodeProtocol
     func accept(visitor: VisitorProtocol) -> Any {
         assert(false, "This method must be overriden by the subclass.")
-        return nil
+//        return nil
+    }
+
+    // Required to conform to ExpressionProtocol
+//    typealias ReturnType = ExpressionResults
+//    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult? {
+    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult {
+        assert(false, "This method must be overriden by the subclass.")
+//        return nil
     }
 }
