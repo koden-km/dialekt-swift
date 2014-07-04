@@ -1,5 +1,5 @@
 // An AST node that represents the logical NOT operator.
-class LogicalNot: AbstractExpression {
+class LogicalNot: AbstractExpression, ExpressionProtocol {
     let _child: ExpressionProtocol
 
     init(child: ExpressionProtocol) {
@@ -12,7 +12,12 @@ class LogicalNot: AbstractExpression {
     }
     
     // Pass this node to the appropriate method on the given visitor.
-    override func accept(visitor: VisitorProtocol) -> Any {
+    func accept(visitor: VisitorProtocol) -> Any {
+        return visitor.visitLogicalNot(self)
+    }
+
+    // Pass this node to the appropriate method on the given visitor.
+    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult {
         return visitor.visitLogicalNot(self)
     }
 }

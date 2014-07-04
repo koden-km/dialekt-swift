@@ -10,10 +10,14 @@ class PatternLiteral: PatternChildProtocol {
     func string() -> String {
         return _string
     }
+
+    // Pass this node to the appropriate method on the given visitor.
+    func accept(visitor: VisitorProtocol) -> Any {
+        return visitor.visitPatternLiteral(self)
+    }
     
     // Pass this node to the appropriate method on the given visitor.
-//    func accept(visitor: VisitorProtocol) -> Any {
-    func accept(visitor: VisitorProtocol) -> String {
+    func accept(visitor: PatternChildVisitorProtocol) -> String {
         return visitor.visitPatternLiteral(self)
     }
 }

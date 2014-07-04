@@ -5,6 +5,9 @@ class EvaluationResult {
     
     init(isMatch: Bool, expressionResults: ExpressionResult[]) {
         _isMatch = isMatch
+        _expressionResults = [:]
+        
+        // TODO: might need to make ExpressionProtocol support hashable for use as dictionary key?
         
         for result in expressionResults {
             //let key = result.expression().source() + ":" + result.expression().sourceOffset().description

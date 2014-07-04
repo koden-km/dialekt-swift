@@ -1,5 +1,7 @@
 // A base class providing common functionality for expressions.
-class AbstractExpression: ExpressionProtocol {
+//
+// Partially implements ExpressionProtocol
+class AbstractExpression {
     var _firstToken: Token?
     var _lastToken: Token?
 
@@ -17,19 +19,5 @@ class AbstractExpression: ExpressionProtocol {
     func setTokens(firstToken: Token, lastToken: Token) {
         _firstToken = firstToken
         _lastToken = lastToken
-    }
-
-    // Required to conform to NodeProtocol
-    func accept(visitor: VisitorProtocol) -> Any {
-        assert(false, "This method must be overriden by the subclass.")
-//        return nil
-    }
-
-    // Required to conform to ExpressionProtocol
-//    typealias ReturnType = ExpressionResults
-//    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult? {
-    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult {
-        assert(false, "This method must be overriden by the subclass.")
-//        return nil
     }
 }

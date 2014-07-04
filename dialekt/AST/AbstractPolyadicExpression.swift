@@ -4,6 +4,7 @@ class AbstractPolyadicExpression: AbstractExpression {
 
     init(args: ExpressionProtocol[]) {
         super.init()
+        
         for expression in args {
             self.add(expression)
         }
@@ -21,11 +22,5 @@ class AbstractPolyadicExpression: AbstractExpression {
     // Fetch an array of this operator's children.
     func children() -> ExpressionProtocol[] {
         return _children
-    }
-    
-    // Required to conform to NodeProtocol
-    override func accept(visitor: VisitorProtocol) -> Any {
-        assert(false, "This method must be overriden by the subclass.")
-        return nil
     }
 }

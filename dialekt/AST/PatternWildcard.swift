@@ -4,4 +4,9 @@ class PatternWildcard: PatternChildProtocol {
     func accept(visitor: VisitorProtocol) -> Any {
         return visitor.visitPatternWildcard(self)
     }
+
+    // Pass this node to the appropriate method on the given visitor.
+    func accept(visitor: PatternChildVisitorProtocol) -> String {
+        return visitor.visitPatternWildcard(self)
+    }
 }

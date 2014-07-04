@@ -13,7 +13,8 @@ let Token_WILDCARD_CHARACTER = "*"
 
 class Token {
     //class let WILDCARD_CHARACTER = "*"
-    
+
+//    enum `Type`: Int {
     enum TokenType: Int {
         case
         LOGICAL_AND   = 1,

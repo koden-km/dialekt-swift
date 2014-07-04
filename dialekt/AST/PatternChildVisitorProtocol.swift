@@ -1,10 +1,11 @@
 // Protocol for pattern child visitors.
 protocol PatternChildVisitorProtocol {
-    typealias PatternChildVisitorProtocolReturnType
+    // Generic return type does not seem to work when used below...
+    //typealias ReturnType
     
     // Visit a PatternLiteral node.
-    func visitPatternLiteral(node: PatternLiteral) -> PatternChildVisitorProtocolReturnType
+    func visitPatternLiteral(node: PatternLiteral) -> String
     
     // Visit a PatternWildcard node.
-    func visitPatternWildcard(node: PatternWildcard) -> PatternChildVisitorProtocolReturnType
+    func visitPatternWildcard(node: PatternWildcard) -> String
 }

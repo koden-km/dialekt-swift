@@ -1,4 +1,2 @@
 // Protocol for node visitors.
-protocol VisitorProtocol: ExpressionVisitorProtocol, PatternChildVisitorProtocol {
-    typealias VisitorProtocolReturnType
-}
+protocol VisitorProtocol: ExpressionVisitorProtocol, PatternChildVisitorProtocol {}

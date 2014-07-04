@@ -3,6 +3,8 @@ class Pattern: AbstractExpression, ExpressionProtocol {
     var _children = PatternChildProtocol[]()
     
     init(args: PatternChildProtocol[]) {
+        super.init()
+
         for expression in args {
             self.add(expression)
         }
@@ -23,7 +25,12 @@ class Pattern: AbstractExpression, ExpressionProtocol {
     }
     
     // Pass this node to the appropriate method on the given visitor.
-    override func accept(visitor: VisitorProtocol) -> Any {
+    func accept(visitor: VisitorProtocol) -> Any {
+        return visitor.visitPattern(self)
+    }
+
+    // Pass this node to the appropriate method on the given visitor.
+    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult {
         return visitor.visitPattern(self)
     }
 }

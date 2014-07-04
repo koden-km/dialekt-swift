@@ -1,4 +1,4 @@
-class Evaluator: EvaluatorProtocol, VisitorProtocol {
+class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
     let _caseSensitive: Bool
     let _emptyIsWildcard: Bool
     var _tags = String[]()
@@ -13,25 +13,11 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
     func evaluate(expression: ExpressionProtocol, tags: String[]) -> EvaluationResult {
         _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
-
-        
-//        let result = EvaluationResult(
-//            expressionResult.isMatch(),
-//            _expressionResults
-//        )
-
-        
-        var isMatch = false
-        if let expressionResult = expression.accept(self) as? ExpressionResult {
-            isMatch = expressionResult.isMatch()
-        }
         
         let result = EvaluationResult(
-            isMatch: isMatch,
+            isMatch: expression.accept(self).isMatch(),
             expressionResults: _expressionResults
         )
-
-        
         
         _tags.removeAll(keepCapacity: true)
         _expressionResults.removeAll(keepCapacity: true)
@@ -126,7 +112,7 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
         let childResult = node.child().accept(self)
         
         return _createExpressionResult(
-            expression: node,
+            node,
             isMatch: !childResult.isMatch(),
             matchedTags: childResult.unmatchedTags(),
             unmatchedTags: childResult.matchedTags()
@@ -158,24 +144,34 @@ class Evaluator: EvaluatorProtocol, VisitorProtocol {
         if !_caseSensitive {
             pattern += "i"
         }
+
+// i have no idea...
+//        let func predicate(tag: String) -> Bool {
+//            //                return preg_match(pattern, tag)
+//            return false   // TODO
+//        }
+
+// TODO: make this thing accept an actual predicate
+//        return _matchTags(node, {return false})
+//        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
+        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
         
-        return _matchTags(node) {
-            
 //            function ($tag) use ($pattern) {
 //                return preg_match($pattern, $tag);
 //            }
 
 
 // i have no idea...
-            (tag: String) -> Bool {
-                return preg_match(pattern, tag)
-            }
-        }
+//            (tag: String) -> Bool in {
+////                return preg_match(pattern, tag)
+//                return false   // TODO
+//            }
     }
 
     // Visit a PatternLiteral node.
     func visitPatternLiteral(node: PatternLiteral) -> String {
-        return preg_quote(node.string(), "/")
+//        return preg_quote(node.string(), "/")
+        return "TODO"
     }
     
     // Visit a PatternWildcard node.
