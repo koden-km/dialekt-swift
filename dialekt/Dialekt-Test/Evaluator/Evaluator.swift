@@ -1,12 +1,25 @@
-class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
+class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultType = ExpressionResult, PatternChildVisitorProtocol where VisitResultType = ExpressionResult {
     let _caseSensitive: Bool
     let _emptyIsWildcard: Bool
     var _tags = String[]()
     var _expressionResults = ExpressionResult[]()
     
-    init(caseSensitive:Bool = false, emptyIsWildcard: Bool = false) {
-        _caseSensitive = caseSensitive
-        _emptyIsWildcard = emptyIsWildcard
+//    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
+//    typealias PatternChildVisitorProtocol.VisitResultType = String
+    
+//    init(caseSensitive:Bool = false, emptyIsWildcard: Bool = false) {
+    init(caseSensitive: Bool?, emptyIsWildcard: Bool?) {
+        if caseSensitive {
+            _caseSensitive = caseSensitive
+        } else {
+            _caseSensitive = false
+        }
+
+        if emptyIsWildcard {
+            _emptyIsWildcard = emptyIsWildcard
+        } else {
+            _emptyIsWildcard = emptyIsWildcard
+        }
     }
     
     // Evaluate an expression against a set of tags.
