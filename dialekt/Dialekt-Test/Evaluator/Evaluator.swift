@@ -22,7 +22,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         }
     }
     
-    // Evaluate an expression against a set of tags.
+    /// Evaluate an expression against a set of tags.
     func evaluate(expression: ExpressionProtocol, tags: String[]) -> EvaluationResult {
         _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
@@ -38,7 +38,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         return result
     }
     
-    // Visit a LogicalAnd node.
+    /// Visit a LogicalAnd node.
     func visitLogicalAnd(node: LogicalAnd) -> ExpressionResult {
         var matchedTags = String[]()
         var isMatch = true
@@ -83,7 +83,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         )
     }
 
-    // Visit a LogicalOr node.
+    /// Visit a LogicalOr node.
     func visitLogicalOr(node: LogicalOr) -> ExpressionResult {
         var matchedTags = String[]()
         var isMatch = false
@@ -120,7 +120,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         )
     }
 
-    // Visit a LogicalNot node.
+    /// Visit a LogicalNot node.
     func visitLogicalNot(node: LogicalNot) -> ExpressionResult {
         let childResult = node.child().accept(self)
         
@@ -132,7 +132,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         )
     }
     
-    // Visit a Tag node.
+    /// Visit a Tag node.
     func visitTag(node: Tag) -> ExpressionResult {
         var predicate: (tag: String) -> Bool
         if _caseSensitive {
@@ -144,7 +144,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         return _matchTags(node, predicate)
     }
     
-    // Visit a pattern node.
+    /// Visit a pattern node.
     func visitPattern(node: Pattern) -> ExpressionResult {
         var pattern = "/^"
         
@@ -181,18 +181,18 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
 //            }
     }
 
-    // Visit a PatternLiteral node.
+    /// Visit a PatternLiteral node.
     func visitPatternLiteral(node: PatternLiteral) -> String {
 //        return preg_quote(node.string(), "/")
         return "TODO"
     }
     
-    // Visit a PatternWildcard node.
+    /// Visit a PatternWildcard node.
     func visitPatternWildcard(node: PatternWildcard) -> String {
         return ".*"
     }
 
-    // Visit a EmptyExpression node.
+    /// Visit a EmptyExpression node.
     func visitEmptyExpression(node: EmptyExpression) -> ExpressionResult {
         return _createExpressionResult(
             node,

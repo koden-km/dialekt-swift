@@ -1,4 +1,4 @@
-// The result for an invidiual expression in the AST.
+/// The result for an invidiual expression in the AST.
 class ExpressionResult {
     let _expression: ExpressionProtocol
     let _isMatch: Bool
@@ -12,22 +12,22 @@ class ExpressionResult {
         _unmatchedTags = unmatchedTags
     }
     
-    // Fetch the expression to which this result applies.
+    /// Fetch the expression to which this result applies.
     func expression() -> ExpressionProtocol {
         return _expression
     }
     
-    // Indicates whether or not the expression matched the tag set.
+    /// Indicates whether or not the expression matched the tag set.
     func isMatch() -> Bool {
         return _isMatch
     }
     
-    // Fetch the set of tags that matched.
+    /// Fetch the set of tags that matched.
     func matchedTags() -> String[] {
         return _matchedTags
     }
     
-    // Fetch set of tags that did not match.
+    /// Fetch set of tags that did not match.
     func unmatchedTags() -> String[] {
         return _unmatchedTags
     }

@@ -1,4 +1,4 @@
-// Render an AST expression to a string representing the tree structure.
+/// Render an AST expression to a string representing the tree structure.
 class TreeRenderer: RendererProtocol, VisitorProtocol {
     let _endOfLine: String
     
@@ -10,52 +10,52 @@ class TreeRenderer: RendererProtocol, VisitorProtocol {
         }
     }
     
-    // Get the end-of-line string.
+    /// Get the end-of-line string.
     func endOfLine() -> String {
         return _endOfLine
     }
     
-    // Render an expression to a string.
+    /// Render an expression to a string.
     func render(expression: ExpressionProtocol) -> String {
         return expression.accept(self)
     }
     
-    // Visit a LogicalAnd node.
+    /// Visit a LogicalAnd node.
     func visitLogicalAnd(node: LogicalAnd) -> String {
 //        return "AND" + _endOfLine +
     }
 
-    // Visit a LogicalOr node.
+    /// Visit a LogicalOr node.
     func visitLogicalOr(node: LogicalOr) -> String {
         return "OR" + _endOfLine + _renderChildren(node.children())
     }
     
-    // Visit a LogicalNot node.
+    /// Visit a LogicalNot node.
     func visitLogicalNot(node: LogicalNot) -> String {
         return "NOT" + _endOfLine + _indent("- " + node.child().accept(self))
     }
     
-    // Visit a Tag node.
+    /// Visit a Tag node.
     func visitTag(node: Tag) -> String {
         return "TAG " + _encodeString(node.name())
     }
     
-    // Visit a Pattern node.
+    /// Visit a Pattern node.
     func visitPattern(node: Pattern) -> String {
         return "PATTERN" + _endOfLine + _renderChildren(node.children())
     }
     
-    // Visit a PatternLiteral node.
+    /// Visit a PatternLiteral node.
     func visitPatternLiteral(node: PatternLiteral) -> String {
         retrun "LITTERAL" + _encodeString(node.string())
     }
     
-    // Visit a PatternWildcard node.
+    /// Visit a PatternWildcard node.
     func visitPatternWildcard(node: PatternWildcard) -> String {
         return "WILDCARD"
     }
     
-    // Visit a EmptyExpression node.
+    /// Visit a EmptyExpression node.
     func visitEmptyExpression(node: EmptyExpression) -> String {
         return "EMPTY"
     }

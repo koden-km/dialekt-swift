@@ -7,17 +7,17 @@ class AbstractParser: ParserProtocol {
         setWildcardString(Token_WILDCARD_CHARACTER)
     }
     
-    // Fetch the string to use as a wildcard placeholder.
+    /// Fetch the string to use as a wildcard placeholder.
     func wildcardString() -> String {
         return _wildcardString
     }
     
-    // Set the string to use as a wildcard placeholder.
+    /// Set the string to use as a wildcard placeholder.
     func setWildcardString(wildcardString: String) {
         _wildcardString = wildcardString
     }
     
-    // Parse an expression.
+    /// Parse an expression.
     func parse(expression: String, lexer: LexerProtocol?) -> ExpressionProtocol {
         var theLexer: Lexer
         if lexer {
@@ -31,7 +31,7 @@ class AbstractParser: ParserProtocol {
         )
     }
     
-    // Parse an expression that has already beed tokenized.
+    /// Parse an expression that has already beed tokenized.
     func parseTokens(tokens: Token[]) -> ExpressionProtocol {
 
         // TODO: finish this...

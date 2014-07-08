@@ -1,4 +1,4 @@
-// The overall result of the evaluation of an expression.
+/// The overall result of the evaluation of an expression.
 class EvaluationResult {
     let _isMatch: Bool
     let _expressionResults: Dictionary<String,ExpressionResult>
@@ -16,12 +16,12 @@ class EvaluationResult {
         }
     }
     
-    // Indicates whether or not the expression matched the tag set.
+    /// Indicates whether or not the expression matched the tag set.
     func isMatch() -> Bool {
         return _isMatch
     }
     
-    // Fetch the result for an individual expression node from the AST.
+    /// Fetch the result for an individual expression node from the AST.
     func resultOf(expression: ExpressionProtocol) -> ExpressionResult {
         //let key = expression.source() + ":" + expression.sourceOffset().description
         let key = "TODO"

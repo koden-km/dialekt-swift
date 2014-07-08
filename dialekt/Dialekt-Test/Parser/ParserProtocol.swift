@@ -1,7 +1,7 @@
 protocol ParserProtocol {
-    // Parse an expression.
+    /// Parse an expression.
     func parse(expression: String, lexer: LexerProtocol?) -> ExpressionProtocol
     
-    // Parse an expression that has already beed tokenized.
+    /// Parse an expression that has already beed tokenized.
     func parseTokens(tokens: Token[]) -> ExpressionProtocol
 }
