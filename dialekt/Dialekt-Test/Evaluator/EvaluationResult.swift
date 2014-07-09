@@ -1,11 +1,10 @@
 /// The overall result of the evaluation of an expression.
 class EvaluationResult {
     let _isMatch: Bool
-    let _expressionResults: Dictionary<String,ExpressionResult>
+    let _expressionResults = [String:ExpressionResult]()
     
-    init(isMatch: Bool, expressionResults: ExpressionResult[]) {
+    init(isMatch: Bool, expressionResults: [ExpressionResult]) {
         _isMatch = isMatch
-        _expressionResults = [:]
         
         // TODO: might need to make ExpressionProtocol support hashable for use as dictionary key?
         

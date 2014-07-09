@@ -1,6 +1,5 @@
 /// Protocol for expression visitors.
 protocol ExpressionVisitorProtocol {
-    /// Generic return type does not seem to work when used below...
     typealias VisitResultType
     
     /// Visit a LogicalAnd node.

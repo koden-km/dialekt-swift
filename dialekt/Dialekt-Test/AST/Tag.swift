@@ -12,12 +12,14 @@ class Tag: AbstractExpression, ExpressionProtocol {
     }
     
     /// Pass this node to the appropriate method on the given visitor.
-    func accept(visitor: VisitorProtocol) -> Any {
+//    func accept<T: VisitorProtocol>(visitor: T) -> Any {
+    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitResultType {
         return visitor.visitTag(self)
     }
 
     /// Pass this node to the appropriate method on the given visitor.
-    func accept(visitor: ExpressionVisitorProtocol) -> ExpressionResult {
+//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> ExpressionResult {
+    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultType {
         return visitor.visitTag(self)
     }
 }

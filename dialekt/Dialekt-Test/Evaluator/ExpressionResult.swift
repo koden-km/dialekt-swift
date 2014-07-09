@@ -1,11 +1,11 @@
 /// The result for an invidiual expression in the AST.
-class ExpressionResult {
-    let _expression: ExpressionProtocol
+class ExpressionResult<ExpType: ExpressionProtocol> {
+    let _expression: ExpType
     let _isMatch: Bool
-    let _matchedTags: String[]
-    let _unmatchedTags: String[]
+    let _matchedTags: [String]
+    let _unmatchedTags: [String]
     
-    init(expression: ExpressionProtocol, isMatch: Bool, matchedTags: String[], unmatchedTags: String[]) {
+    init(expression: ExpType, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) {
         _expression = expression
         _isMatch = isMatch
         _matchedTags = matchedTags
@@ -13,7 +13,7 @@ class ExpressionResult {
     }
     
     /// Fetch the expression to which this result applies.
-    func expression() -> ExpressionProtocol {
+    func expression() -> ExpType {
         return _expression
     }
     
@@ -23,12 +23,12 @@ class ExpressionResult {
     }
     
     /// Fetch the set of tags that matched.
-    func matchedTags() -> String[] {
+    func matchedTags() -> [String] {
         return _matchedTags
     }
     
     /// Fetch set of tags that did not match.
-    func unmatchedTags() -> String[] {
+    func unmatchedTags() -> [String] {
         return _unmatchedTags
     }
 }

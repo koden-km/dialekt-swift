@@ -1,8 +1,8 @@
 class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultType = ExpressionResult, PatternChildVisitorProtocol where VisitResultType = ExpressionResult {
     let _caseSensitive: Bool
     let _emptyIsWildcard: Bool
-    var _tags = String[]()
-    var _expressionResults = ExpressionResult[]()
+    var _tags = [String]()
+    var _expressionResults = [ExpressionResult]()
     
 //    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
 //    typealias PatternChildVisitorProtocol.VisitResultType = String
@@ -23,7 +23,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
     }
     
     /// Evaluate an expression against a set of tags.
-    func evaluate(expression: ExpressionProtocol, tags: String[]) -> EvaluationResult {
+    func evaluate(expression: ExpressionProtocol, tags: [String]) -> EvaluationResult {
         _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
         
@@ -40,7 +40,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
     
     /// Visit a LogicalAnd node.
     func visitLogicalAnd(node: LogicalAnd) -> ExpressionResult {
-        var matchedTags = String[]()
+        var matchedTags = [String]()
         var isMatch = true
         
         for n in node.children() {
@@ -59,7 +59,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
             }
         }
 
-//        let unmatchedTags = String[]()
+//        let unmatchedTags = [String]()
         let unmatchedTags = _tags.filter() {
             tag in
             for t in self._tags {
@@ -85,7 +85,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
 
     /// Visit a LogicalOr node.
     func visitLogicalOr(node: LogicalOr) -> ExpressionResult {
-        var matchedTags = String[]()
+        var matchedTags = [String]()
         var isMatch = false
         
         for n in node.children() {
@@ -100,7 +100,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
             }
         }
             
-//        let unmatchedTags = String[]()
+//        let unmatchedTags = [String]()
         let unmatchedTags = _tags.filter() {
             tag in
             for t in self._tags {
@@ -197,14 +197,14 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         return _createExpressionResult(
             node,
             isMatch: _emptyIsWildcard,
-            matchedTags: _emptyIsWildcard ? _tags : String[](),
-            unmatchedTags: _emptyIsWildcard ? String[]() : _tags
+            matchedTags: _emptyIsWildcard ? _tags : [String](),
+            unmatchedTags: _emptyIsWildcard ? [String]() : _tags
         )
     }
     
     func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult {
-        var matchedTags: String[]
-        var unmatchedTags: String[]
+        var matchedTags: [String]
+        var unmatchedTags: [String]
         
         for tag in _tags {
             if predicate(tag: tag) {
@@ -222,7 +222,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where VisitResultT
         )
     }
     
-    func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: String[], unmatchedTags: String[]) -> ExpressionResult {
+    func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) -> ExpressionResult {
         let result = ExpressionResult(
             expression: expression,
             isMatch: isMatch,

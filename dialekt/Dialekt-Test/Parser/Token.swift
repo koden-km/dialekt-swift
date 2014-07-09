@@ -2,10 +2,12 @@
 let Token_WILDCARD_CHARACTER = "*"
 
 class Token {
-    //class let WILDCARD_CHARACTER = "*"
+//    class let WILDCARD_CHARACTER = "*"
 
+// TODO: is the word Type already used?
+    enum Type: Int {
 //    enum `Type`: Int {
-    enum TokenType: Int {
+//    enum TokenType: Int {
         case
         LOGICAL_AND   = 1,
         LOGICAL_OR    = 2,

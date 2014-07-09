@@ -1,7 +1,7 @@
 class AbstractParser: ParserProtocol {
     var _wildcardString = ""
-    var _tokenStack = Token[]()
-    var _tokens = Token[]()
+    var _tokenStack = [Token]()
+    var _tokens = [Token]()
     
     init() {
         setWildcardString(Token_WILDCARD_CHARACTER)
@@ -32,7 +32,7 @@ class AbstractParser: ParserProtocol {
     }
     
     /// Parse an expression that has already beed tokenized.
-    func parseTokens(tokens: Token[]) -> ExpressionProtocol {
+    func parseTokens(tokens: [Token]) -> ExpressionProtocol {
 
         // TODO: finish this...
         

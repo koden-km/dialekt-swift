@@ -2,8 +2,7 @@
 ///
 /// Not all nodes in the tree represent an entire (sub-)expression.
 protocol ExpressionProtocol: NodeProtocol {
-    /// Generic return type does not seem to work when used below...
-    typealias AcceptResultType
+//    typealias VisitationResultType
     
     /// Fetch the first token from the source that is part of this expression.
     func firstToken() -> Token?
@@ -15,5 +14,6 @@ protocol ExpressionProtocol: NodeProtocol {
     func setTokens(firstToken: Token, lastToken: Token)
 
     /// Pass this node to the appropriate method on the given visitor.
-    func accept(visitor: ExpressionVisitorProtocol) -> AcceptResultType //ExpressionResult
+//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> VisitationResultType
+    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultType
 }

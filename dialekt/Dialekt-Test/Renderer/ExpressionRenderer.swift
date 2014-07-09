@@ -15,7 +15,7 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     }
     
     /// Render an expression to a string.
-    func render(expression: ExpressionProtocol) -> String {
+    func render<T: ExpressionProtocol>(expression: T) -> String {
         return expression.accept(expression)
     }
     
@@ -77,7 +77,7 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
         return "NOT " + _wildcardString
     }
     
-    func _implodeNodes(separator: String, nodes: ExpressionProtocol[]) -> String {
+    func _implodeNodes(separator: String, nodes: [ExpressionProtocol]) -> String {
         var result = ""
         
         for node in nodes {
@@ -102,9 +102,9 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 //                return '"' + string + '"';
 //        }
 //        
-//        String[] characters = { "\\", "(", ")", "\"" };
+//        let characters = ["\\", "(", ")", "\""];
 //        
-//        for (String s : characters) {
+//        for (s in characters) {
 //            string = string.replace(s, '\\' + s);
 //        }
 //        

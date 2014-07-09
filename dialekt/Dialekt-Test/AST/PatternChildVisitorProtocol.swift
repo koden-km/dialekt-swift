@@ -1,6 +1,5 @@
 /// Protocol for pattern child visitors.
 protocol PatternChildVisitorProtocol {
-    // Generic return type does not seem to work when used below...
     typealias VisitResultType
     
     /// Visit a PatternLiteral node.
