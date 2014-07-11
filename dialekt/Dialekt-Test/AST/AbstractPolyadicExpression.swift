@@ -3,7 +3,8 @@ class AbstractPolyadicExpression: AbstractExpression {
     var _children = [ExpressionProtocol]()
 //    var _children = [Any]()
 
-    init<T: ExpressionProtocol>(args: [T]) {
+    init(args: [ExpressionProtocol]) {
+//    init<T: ExpressionProtocol>(args: [T]) {
         super.init()
         
         for expression in args {
@@ -11,7 +12,8 @@ class AbstractPolyadicExpression: AbstractExpression {
         }
     }
 
-    convenience init<T: ExpressionProtocol>(args: T...) {
+    convenience init(args: ExpressionProtocol...) {
+//    convenience init<T: ExpressionProtocol>(args: T...) {
         self.init(args: args)
     }
     

@@ -1,6 +1,7 @@
 /// An AST node that represents the logical OR operator.
 class LogicalOr: AbstractPolyadicExpression, ExpressionProtocol {
-    init<T: ExpressionProtocol>(args: T...) {
+    init(args: ExpressionProtocol...) {
+//    init<T: ExpressionProtocol>(args: T...) {
         super.init(args: args)
     }
     

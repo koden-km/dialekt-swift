@@ -3,7 +3,8 @@ class Pattern: AbstractExpression, ExpressionProtocol {
     var _children = [PatternChildProtocol]()
 //    var _children = [Any]()
     
-    init<T: PatternChildProtocol>(args: [T]) {
+    init(args: [PatternChildProtocol]) {
+//    init<T: PatternChildProtocol>(args: [T]) {
         super.init()
 
         for expression in args {
@@ -11,7 +12,8 @@ class Pattern: AbstractExpression, ExpressionProtocol {
         }
     }
     
-    convenience init<T: PatternChildProtocol>(args: T...) {
+    convenience init(args: PatternChildProtocol...) {
+//    convenience init<T: PatternChildProtocol>(args: T...) {
         self.init(args: args)
     }
     
