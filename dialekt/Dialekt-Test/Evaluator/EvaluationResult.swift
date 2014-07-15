@@ -1,15 +1,16 @@
 /// The overall result of the evaluation of an expression.
-class EvaluationResult {
+class EvaluationResult {    // NOTE: should this be a struct?
     let _isMatch: Bool
-    let _expressionResults = [String:ExpressionResult]()
+    let _expressionResults: [String:ExpressionResult]
     
     init(isMatch: Bool, expressionResults: [ExpressionResult]) {
         _isMatch = isMatch
         
-        // TODO: might need to make ExpressionProtocol support hashable for use as dictionary key?
+        // TODO: might need to make ExpressionProtocol support "Hashable" for use as dictionary key?
         
         for result in expressionResults {
             //let key = result.expression().source() + ":" + result.expression().sourceOffset().description
+            result.expression()
             let key = "TODO"
             _expressionResults[key] = result
         }

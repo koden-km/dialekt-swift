@@ -1,11 +1,11 @@
 /// The result for an invidiual expression in the AST.
-class ExpressionResult<ExpType: ExpressionProtocol> {
-    let _expression: ExpType
+class ExpressionResult {    // NOTE: should this be a struct?
+    let _expression: ExpressionProtocol
     let _isMatch: Bool
     let _matchedTags: [String]
     let _unmatchedTags: [String]
     
-    init(expression: ExpType, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) {
+    init(expression: ExpressionProtocol, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) {
         _expression = expression
         _isMatch = isMatch
         _matchedTags = matchedTags
@@ -13,7 +13,7 @@ class ExpressionResult<ExpType: ExpressionProtocol> {
     }
     
     /// Fetch the expression to which this result applies.
-    func expression() -> ExpType {
+    func expression() -> ExpressionProtocol {
         return _expression
     }
     
