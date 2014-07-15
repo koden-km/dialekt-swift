@@ -1,6 +1,20 @@
-class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol {
-    
-//where VisitResultType = ExpressionResult, PatternChildVisitorProtocol where VisitResultType = ExpressionResult {
+class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
+//    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
+//    typealias PatternChildVisitiorProtocol.VisitResultType = String
+
+//    typealias VisitResultType = ExpressionResult
+//    typealias VisitResultType = String
+//typealias VisitResultTypeE = ExpressionResult
+//typealias VisitResultTypeP = String
+
+//    ExpressionVisitorProtocol.VisitResultType = ExpressionResult
+//    PatternChildVisitiorProtocol.VisitResultType = String
+
+//class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where ExpressionVisitorProtocol.VisitResultType = ExpressionResult, PatternChildVisitorProtocol where PatternChildVisitorProtocol.VisitResultType = String {
+
+// do i need to use constraints or assign the result type aliases?
+// ExpressionVisitorProtocol where VisitResultType = ExpressionResult,
+// PatternChildVisitorProtocol where VisitResultType = ExpressionResult {
 
 //    let _caseSensitive: Bool
 //    let _emptyIsWildcard: Bool
@@ -163,11 +177,12 @@ let _emptyIsWildcard = false
 //            //                return preg_match(pattern, tag)
 //            return false   // TODO
 //        }
-
-// TODO: make this thing accept an actual predicate
-//        return _matchTags(node, {return false})
+// TODO: just stub this for now. make this thing accept an actual predicate
+//        return _matchTags(node) { return false }
 //        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
-        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
+//        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
+//        return _matchTags(node) { tag: String in return tag == "TODO")
+        return _matchTags(node) { return $0 == "TODO" }
         
 //            function ($tag) use ($pattern) {
 //                return preg_match($pattern, $tag);

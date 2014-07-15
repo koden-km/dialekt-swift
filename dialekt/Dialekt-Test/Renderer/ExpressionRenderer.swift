@@ -15,18 +15,19 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     }
     
     /// Render an expression to a string.
-    func render<T: ExpressionProtocol>(expression: T) -> String {
-        return expression.accept(expression)
+    func render(expression: ExpressionProtocol) -> String {
+//    func render<T: ExpressionProtocol>(expression: T) -> String {
+        return expression.accept(self)
     }
     
     /// Visit a LogicalAnd node.
     func visitLogicalAnd(node: LogicalAnd) -> String {
-        return _implodeNodes("AND", node.children())
+        return _implodeNodes("AND", nodes: node.children())
     }
 
     /// Visit a LogicalOr node.
     func visitLogicalOr(node: LogicalOr) -> String {
-        return _implodeNodes("OR", node.children())
+        return _implodeNodes("OR", nodes: node.children())
     }
     
     /// Visit a LogicalNot node.

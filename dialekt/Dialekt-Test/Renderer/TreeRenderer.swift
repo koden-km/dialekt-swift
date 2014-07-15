@@ -43,11 +43,15 @@ class TreeRenderer: RendererProtocol, VisitorProtocol {
     /// Visit a Pattern node.
     func visitPattern(node: Pattern) -> String {
         return "PATTERN" + _endOfLine + _renderChildren(node.children())
+
+//        var x: [NodeProtocol]
+//        x = node.children()
+//        return "PATTERN" + _endOfLine + _renderChildren(x)
     }
     
     /// Visit a PatternLiteral node.
     func visitPatternLiteral(node: PatternLiteral) -> String {
-        retrun "LITTERAL" + _encodeString(node.string())
+        return "LITTERAL" + _encodeString(node.string())
     }
     
     /// Visit a PatternWildcard node.
@@ -60,7 +64,11 @@ class TreeRenderer: RendererProtocol, VisitorProtocol {
         return "EMPTY"
     }
     
-    func _renderChildren(children: SequenceOf<NodeProtocol>) -> String {
+//    func _renderChildren(children: Sequence) -> String {
+//    func _renderChildren<T: NodeProtocol>(children: SequenceOf<T>) -> String {
+    func _renderChildren<T: NodeProtocol>(children: [T]) -> String {
+//    func _renderChildren(children: SequenceOf<NodeProtocol>) -> String {
+//    func _renderChildren(children: [NodeProtocol]) -> String {
         var output = ""
         
         for n in children {
