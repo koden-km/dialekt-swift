@@ -1,16 +1,11 @@
 /// An AST node that represents an empty expression.
 class EmptyExpression: AbstractExpression, ExpressionProtocol {
-    /// Pass this node to the appropriate method on the given visitor.
-//    func accept<T: VisitorProtocol>(visitor: T) -> Any {
-//    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitResultType {
-//    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitResultTypeExpression {
-//        return visitor.visitEmptyExpression(self)
-//    }
 
-    /// Pass this node to the appropriate method on the given visitor.
-//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> ExpressionResult {
-//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultType {
-    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultTypeExpression {
+    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitorResultType {
+        return visitor.visitEmptyExpression(self) as T.VisitorResultType
+    }
+
+    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.ExpressionVisitorResultType {
         return visitor.visitEmptyExpression(self)
     }
 }

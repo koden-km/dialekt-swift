@@ -2,8 +2,6 @@
 ///
 /// Partially implements ExpressionProtocol
 class AbstractExpression {
-    var _firstToken: Token?
-    var _lastToken: Token?
 
     /// Fetch the first token from the source that is part of this expression.
     func firstToken() -> Token? {
@@ -20,4 +18,7 @@ class AbstractExpression {
         _firstToken = firstToken
         _lastToken = lastToken
     }
+
+    var _firstToken: Token? = nil
+    var _lastToken: Token? = nil
 }
