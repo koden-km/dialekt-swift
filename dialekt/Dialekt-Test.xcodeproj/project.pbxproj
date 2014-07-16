@@ -101,8 +101,8 @@
 		0A0EDF3B1969F51700DFD058 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
-				0A0EDF3C1969F58100DFD058 /* RendererProtocol.swift */,
 				0A0EDF3E1969F5D300DFD058 /* ExpressionRenderer.swift */,
+				0A0EDF3C1969F58100DFD058 /* RendererProtocol.swift */,
 				0A0EDF40196A78BC00DFD058 /* TreeRenderer.swift */,
 			);
 			name = Renderer;

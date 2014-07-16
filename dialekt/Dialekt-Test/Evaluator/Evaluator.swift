@@ -1,65 +1,8 @@
 
 class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
-
-
-
-//class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
-//    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
-//    typealias PatternChildVisitiorProtocol.VisitResultType = String
-
-//    typealias VisitResultType = ExpressionResult
-//    typealias VisitResultType = String
-//typealias VisitResultTypeE = ExpressionResult
-//typealias VisitResultTypeP = String
-
-//    ExpressionVisitorProtocol.VisitResultType = ExpressionResult
-//    PatternChildVisitiorProtocol.VisitResultType = String
-
-    
-    
-    
-    
-//class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where ExpressionVisitorProtocol.VisitResultType = ExpressionResult, PatternChildVisitorProtocol where PatternChildVisitorProtocol.VisitResultType = String {
-
-
-
-//class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol.VisitResultType.ExpressionResult, PatternChildVisitorProtocol.VisitResultType = String {
-
-
-    
-    
-//    typealias VisitResultType = ExpressionResult
-//    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
-//    typealias PatternChildVisitiorProtocol.VisitResultType = String
-
-    
-    
-// do i need to use constraints or assign the result type aliases?
-// ExpressionVisitorProtocol where VisitResultType = ExpressionResult,
-// PatternChildVisitorProtocol where VisitResultType = ExpressionResult {
-
-    
-    
-    
-    
-//    let _caseSensitive: Bool
-//    let _emptyIsWildcard: Bool
-    let _caseSensitive = false
-    let _emptyIsWildcard = false
-    var _tags = [String]()
-    var _expressionResults = [ExpressionResult]()
-    
-//    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
-//    typealias PatternChildVisitorProtocol.VisitResultType = String
-    
-//    init(caseSensitive = false, emptyIsWildcard = false) {
-    init(caseSensitive: Bool, emptyIsWildcard: Bool) {
+    init(caseSensitive: Bool = false, emptyIsWildcard: Bool = false) {
         _caseSensitive = caseSensitive
         _emptyIsWildcard = emptyIsWildcard
-    }
-
-    convenience init() {
-        self.init(caseSensitive: false, emptyIsWildcard: false)
     }
 
     /// Evaluate an expression against a set of tags.
@@ -67,10 +10,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
         
-        let result = EvaluationResult(
-            isMatch: expression.accept(self).isMatch(),
-            expressionResults: _expressionResults
-        )
+        let result = EvaluationResult(expression.accept(self).isMatch(), _expressionResults)
         
         _tags.removeAll(keepCapacity: true)
         _expressionResults.removeAll(keepCapacity: true)
@@ -277,14 +217,19 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     
     func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) -> ExpressionResult {
         let result = ExpressionResult(
-            expression: expression,
-            isMatch: isMatch,
-            matchedTags: matchedTags,
-            unmatchedTags: unmatchedTags
+            expression,
+            isMatch,
+            matchedTags,
+            unmatchedTags
         )
         
         _expressionResults.append(result)
         
         return result
     }
+
+    let _caseSensitive: Bool
+    let _emptyIsWildcard: Bool
+    var _tags = [String]()
+    var _expressionResults = [ExpressionResult]()
 }

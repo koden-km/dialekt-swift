@@ -1,8 +1,6 @@
 /// A base class providing common functionality for expressions.
-///
 /// Partially implements ExpressionProtocol
 class AbstractExpression {
-
     /// Fetch the first token from the source that is part of this expression.
     func firstToken() -> Token? {
         return _firstToken

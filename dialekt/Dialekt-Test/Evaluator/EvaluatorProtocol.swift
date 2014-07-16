@@ -4,5 +4,4 @@
 protocol EvaluatorProtocol {
     /// Evaluate an expression against a set of tags.
     func evaluate(expression: ExpressionProtocol, tags: [String]) -> EvaluationResult
-//    func evaluate<T: ExpressionProtocol>(expression: T, tags: [String]) -> EvaluationResult
 }

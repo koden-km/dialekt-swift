@@ -5,31 +5,30 @@ enum TokenType {
     case Text
     case OpenBracket
     case CloseBracket
-    
+
     var description: String {
-    switch self {
-    case .LogicalAnd:
-        return "AND operator"
-    case .LogicalOr:
-        return "OR operator"
-    case .LogicalNot:
-        return "NOT operator"
-    case .OpenBracket:
-        return "open bracket"
-    case .CloseBracket:
-        return "close bracket"
-    case .Text:
-        return "tag"
+        switch self {
+        case .LogicalAnd:
+            return "AND operator"
+        case .LogicalOr:
+            return "OR operator"
+        case .LogicalNot:
+            return "NOT operator"
+        case .OpenBracket:
+            return "open bracket"
+        case .CloseBracket:
+            return "close bracket"
+        case .Text:
+            return "tag"
         }
     }
 }
-    
-class Token : Equatable {
 
+class Token: Equatable {
     class var WildcardString: String {
         return "*";
     }
-    
+
     init(
         _ type: TokenType,
         _ value: String,
