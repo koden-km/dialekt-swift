@@ -5,7 +5,7 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     }
     
     convenience init() {
-        self.init(wildcardString: "*")
+        self.init(wildcardString: Token.WildcardString)
     }
 
     func render(expression: ExpressionProtocol) -> String {
