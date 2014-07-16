@@ -1,45 +1,33 @@
 /// An AST node that represents a pattern-match expression.
 class Pattern: AbstractExpression, ExpressionProtocol {
-    var _children = [PatternChildProtocol]()
-//    var _children = [Any]()
-    
-    init(args: [PatternChildProtocol]) {
-//    init<T: PatternChildProtocol>(args: [T]) {
-        super.init()
 
-        for expression in args {
-            self.add(expression)
-        }
+    init(_ children: [PatternChildProtocol]) {
+        _children = children;
+
+        super.init()
     }
     
-    convenience init(args: PatternChildProtocol...) {
-//    convenience init<T: PatternChildProtocol>(args: T...) {
-        self.init(args: args)
+    convenience init(_ children: PatternChildProtocol...) {
+        self.init(children)
     }
-    
+
     /// Add a child to this node.
-    func add(expression: PatternChildProtocol) {
-//    func add<T: PatternChildProtocol>(expression: T) {
-        _children.append(expression)
+    func add(node: PatternChildProtocol) {
+        _children.append(node)
     }
-    
+
     /// Fetch an array of this node's children.
     func children() -> [PatternChildProtocol] {
-//    func children() -> [Any] {
         return _children
     }
-    
-    /// Pass this node to the appropriate method on the given visitor.
-//    func accept<T: VisitorProtocol>(visitor: T) -> Any {
-//    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitResultType {
-//    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitResultTypeExpression {
-//        return visitor.visitPattern(self)
-//    }
 
-    /// Pass this node to the appropriate method on the given visitor.
-//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> ExpressionResult {
-//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultType {
-    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultTypeExpression {
+    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitorResultType {
+        return visitor.visitPattern(self) as T.VisitorResultType
+    }
+
+    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.ExpressionVisitorResultType {
         return visitor.visitPattern(self)
     }
+    
+    var _children: [PatternChildProtocol]
 }

@@ -1,33 +1,23 @@
 /// A base class providing common functionality for polyadic operators.
 class AbstractPolyadicExpression: AbstractExpression {
-    var _children = [ExpressionProtocol]()
-//    var _children = [Any]()
 
-    init(args: [ExpressionProtocol]) {
-//    init<T: ExpressionProtocol>(args: [T]) {
+    init(_ children: [ExpressionProtocol]) {
+        _children = children;
+
         super.init()
-        
-        for expression in args {
-            self.add(expression)
-        }
-    }
-
-    convenience init(args: ExpressionProtocol...) {
-//    convenience init<T: ExpressionProtocol>(args: T...) {
-        self.init(args: args)
     }
     
-    /// Add a child expression to this operator.
+    convenience init(_ children: ExpressionProtocol...) {
+        self.init(children)
+    }
+    
     func add(expression: ExpressionProtocol) {
-//    func add<T: ExpressionProtocol>(expression: T) {
         _children.append(expression)
     }
     
-    /// Fetch an array of this operator's children.
     func children() -> [ExpressionProtocol] {
-//    func children<T: ExpressionProtocol>() -> [T] {
-//    func children<T: [ExpressionProtocol]>() -> T {
-//    func children() -> [Any] {
         return _children
     }
+    
+    var _children: [ExpressionProtocol];
 }
