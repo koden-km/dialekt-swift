@@ -15,5 +15,6 @@ protocol ExpressionProtocol: NodeProtocol {
 
     /// Pass this node to the appropriate method on the given visitor.
 //    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> VisitationResultType
-    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultType
+//    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultType
+    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.VisitResultTypeExpression
 }

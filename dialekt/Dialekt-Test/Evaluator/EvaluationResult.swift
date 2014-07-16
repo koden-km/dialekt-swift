@@ -5,12 +5,13 @@ class EvaluationResult {    // NOTE: should this be a struct?
     
     init(isMatch: Bool, expressionResults: [ExpressionResult]) {
         _isMatch = isMatch
-        
-        // TODO: might need to make ExpressionProtocol support "Hashable" for use as dictionary key?
+        _expressionResults = [:]
         
         for result in expressionResults {
+            // TODO: might need to make ExpressionProtocol support "Hashable" for use as dictionary key?
             //let key = result.expression().source() + ":" + result.expression().sourceOffset().description
-            result.expression()
+//            let key = result.expression().firstToken()?.value + "::" + result.expression().lastToken()?.value
+//            result.expression().firstToken()?.value
             let key = "TODO"
             _expressionResults[key] = result
         }

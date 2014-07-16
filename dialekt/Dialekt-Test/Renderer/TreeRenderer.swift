@@ -1,5 +1,7 @@
 /// Render an AST expression to a string representing the tree structure.
 class TreeRenderer: RendererProtocol, VisitorProtocol {
+    //  where ExpressionVisitorProtocol.VisitResultTypeExpression = PatternChildVisitorProtocol.VisitResultTypePattern
+    
     let _endOfLine: String
     
     init(endOfLine: String?) {

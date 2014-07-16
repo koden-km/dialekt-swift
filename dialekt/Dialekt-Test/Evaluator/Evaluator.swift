@@ -1,4 +1,9 @@
+
 class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
+
+
+
+//class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
 //    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
 //    typealias PatternChildVisitiorProtocol.VisitResultType = String
 
@@ -10,16 +15,37 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
 //    ExpressionVisitorProtocol.VisitResultType = ExpressionResult
 //    PatternChildVisitiorProtocol.VisitResultType = String
 
+    
+    
+    
+    
 //class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol where ExpressionVisitorProtocol.VisitResultType = ExpressionResult, PatternChildVisitorProtocol where PatternChildVisitorProtocol.VisitResultType = String {
 
+
+
+//class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol.VisitResultType.ExpressionResult, PatternChildVisitorProtocol.VisitResultType = String {
+
+
+    
+    
+//    typealias VisitResultType = ExpressionResult
+//    typealias ExpressionVisitorProtocol.VisitResultType = ExpressionResult
+//    typealias PatternChildVisitiorProtocol.VisitResultType = String
+
+    
+    
 // do i need to use constraints or assign the result type aliases?
 // ExpressionVisitorProtocol where VisitResultType = ExpressionResult,
 // PatternChildVisitorProtocol where VisitResultType = ExpressionResult {
 
+    
+    
+    
+    
 //    let _caseSensitive: Bool
 //    let _emptyIsWildcard: Bool
-let _caseSensitive = false
-let _emptyIsWildcard = false
+    let _caseSensitive = false
+    let _emptyIsWildcard = false
     var _tags = [String]()
     var _expressionResults = [ExpressionResult]()
     
@@ -148,14 +174,16 @@ let _emptyIsWildcard = false
     
     /// Visit a Tag node.
     func visitTag(node: Tag) -> ExpressionResult {
-        var predicate: (tag: String) -> Bool
+//        var predicate: (tag: String) -> Bool
         if _caseSensitive {
 //            predicate = func (tag) ...
+            return _matchTags(node) { return $0 == "TODO" }
         } else {
 //            predicate = func (tag) ...
+            return _matchTags(node) { return $0 == "TODO" }
         }
         
-        return _matchTags(node, predicate)
+//        return _matchTags(node, predicate)
     }
     
     /// Visit a pattern node.
@@ -163,6 +191,8 @@ let _emptyIsWildcard = false
         var pattern = "/^"
         
         for n in node.children() {
+//        for n in enumerate(node.children()) {
+            // TESTING: this should work, but i'm messing with the generics
             pattern += n.accept(self)
         }
         
@@ -198,14 +228,22 @@ let _emptyIsWildcard = false
 
     /// Visit a PatternLiteral node.
     func visitPatternLiteral(node: PatternLiteral) -> String {
-//        return preg_quote(node.string(), "/")
+        //return preg_quote(node.string(), "/")
         return "TODO"
     }
+// TESTING: make the return type the same as the expression return types to see if it satisifies the generic protocol
+//func visitPatternLiteral(node: PatternLiteral) -> ExpressionResult {
+//return ExpressionResult(expression: EmptyExpression(), isMatch: false, matchedTags: [], unmatchedTags: [])
+//}
     
     /// Visit a PatternWildcard node.
     func visitPatternWildcard(node: PatternWildcard) -> String {
         return ".*"
     }
+// TESTING: make the return type the same as the expression return types to see if it satisifies the generic protocol
+//func visitPatternWildcard(node: PatternWildcard) -> ExpressionResult {
+//return ExpressionResult(expression: EmptyExpression(), isMatch: false, matchedTags: [], unmatchedTags: [])
+//}
 
     /// Visit a EmptyExpression node.
     func visitEmptyExpression(node: EmptyExpression) -> ExpressionResult {
@@ -218,8 +256,8 @@ let _emptyIsWildcard = false
     }
     
     func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult {
-        var matchedTags: [String]
-        var unmatchedTags: [String]
+        var matchedTags = [String]()
+        var unmatchedTags = [String]()
         
         for tag in _tags {
             if predicate(tag: tag) {
