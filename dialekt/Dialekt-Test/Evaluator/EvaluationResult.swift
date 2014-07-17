@@ -38,7 +38,6 @@ class EvaluationResult {
             key += t.endOffset.description + sep
             key += t.lineNumber.description + sep
             key += t.columnNumber.description
-
             return key
         }
 
