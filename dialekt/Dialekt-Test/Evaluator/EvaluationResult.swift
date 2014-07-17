@@ -8,11 +8,7 @@ class EvaluationResult {
         _expressionResults = [:]
 
         for result in expressionResults {
-            // TODO: might need to make ExpressionProtocol support "Hashable" for use as dictionary key?
-            //let key = result.expression().source() + ":" + result.expression().sourceOffset().description
-//            let key = result.expression().firstToken()?.value + "::" + result.expression().lastToken()?.value
-//            result.expression().firstToken()?.value
-            let key = "TODO"
+            let key = _makeKey(result.expression())
             _expressionResults[key] = result
         }
     }
@@ -24,9 +20,29 @@ class EvaluationResult {
 
     /// Fetch the result for an individual expression node from the AST.
     func resultOf(expression: ExpressionProtocol) -> ExpressionResult {
-        //let key = expression.source() + ":" + expression.sourceOffset().description
-        let key = "TODO"
+        let key = _makeKey(expression)
         return _expressionResults[key]!
+    }
+
+    func _makeKey(expression: ExpressionProtocol) -> String {
+        return _stringifyToken(expression.firstToken()) +
+            ":" + _stringifyToken(expression.lastToken())
+    }
+
+    func _stringifyToken(token: Token?) -> String {
+        if let t = token {
+            let sep = ","
+            var key = t.tokenType.description + sep
+            key += t.value + sep
+            key += t.startOffset.description + sep
+            key += t.endOffset.description + sep
+            key += t.lineNumber.description + sep
+            key += t.columnNumber.description
+
+            return key
+        }
+
+        return ""
     }
 
     let _isMatch: Bool

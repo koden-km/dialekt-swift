@@ -1,4 +1,4 @@
-
+/*
 class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
     init(caseSensitive: Bool = false, emptyIsWildcard: Bool = false) {
         _caseSensitive = caseSensitive
@@ -233,3 +233,4 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     var _tags = [String]()
     var _expressionResults = [ExpressionResult]()
 }
+*/
