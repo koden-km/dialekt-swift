@@ -37,7 +37,7 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     /// Visit a pattern node.
     func visitPattern(node: Pattern) -> String {
         return "".join(
-            node.children().map() {
+            node.children().map {
                 $0.accept(self)
             }
         )
@@ -61,7 +61,7 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 
     func _implodeNodes(separator: String, _ nodes: [ExpressionProtocol]) -> String {
         return (" " + separator + " ").join(
-            nodes.map() {
+            nodes.map {
                 $0.accept(self)
             }
         )

@@ -16,10 +16,10 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         
         _tags.removeAll(keepCapacity: true)
         _expressionResults.removeAll(keepCapacity: true)
-        
+
         return result
     }
-    
+
     /// Visit a LogicalAnd node.
     func visitLogicalAnd(node: LogicalAnd) -> ExpressionResult {
         var matchedTags = [String]()
@@ -66,10 +66,10 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     func visitLogicalOr(node: LogicalOr) -> ExpressionResult {
         var matchedTags = [String]()
         var isMatch = false
-        
+
         for n in node.children() {
             var result = n.accept(self)
-            
+
             if result.isMatch() {
                 isMatch = true
             }
@@ -92,11 +92,11 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
                 if tag == t {
                     return false
                 }
-                
+
             }
             return true
         }
-        
+
         return _createExpressionResult(
             node,
             isMatch: isMatch,
@@ -108,7 +108,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     /// Visit a LogicalNot node.
     func visitLogicalNot(node: LogicalNot) -> ExpressionResult {
         let childResult = node.child().accept(self)
-        
+
         return _createExpressionResult(
             node,
             isMatch: !childResult.isMatch(),
@@ -116,7 +116,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
             unmatchedTags: childResult.matchedTags()
         )
     }
-    
+
     /// Visit a Tag node.
     func visitTag(node: Tag) -> ExpressionResult {
 //        var predicate: (tag: String) -> Bool
@@ -127,22 +127,22 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
 //            predicate = func (tag) ...
             return _matchTags(node) { return $0 == "TODO" }
         }
-        
+
 //        return _matchTags(node, predicate)
     }
-    
+
     /// Visit a pattern node.
     func visitPattern(node: Pattern) -> ExpressionResult {
         var pattern = "/^"
-        
+
         for n in node.children() {
 //        for n in enumerate(node.children()) {
             // TESTING: this should work, but i'm messing with the generics
             pattern += n.accept(self)
         }
-        
+
         pattern += "$/"
-        
+
         if !_caseSensitive {
             pattern += "i"
         }
@@ -158,7 +158,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
 //        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
 //        return _matchTags(node) { tag: String in return tag == "TODO")
         return _matchTags(node) { return $0 == "TODO" }
-        
+
 //            function ($tag) use ($pattern) {
 //                return preg_match($pattern, $tag);
 //            }
@@ -199,11 +199,11 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
             unmatchedTags: _emptyIsWildcard ? [String]() : _tags
         )
     }
-    
+
     func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult {
         var matchedTags = [String]()
         var unmatchedTags = [String]()
-        
+
         for tag in _tags {
             if predicate(tag: tag) {
                 matchedTags.append(tag)
@@ -211,7 +211,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
                 unmatchedTags.append(tag)
             }
         }
-        
+
         return _createExpressionResult(
             expression,
             isMatch: matchedTags.count > 0,
@@ -219,7 +219,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
             unmatchedTags: unmatchedTags
         )
     }
-    
+
     func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) -> ExpressionResult {
         let result = ExpressionResult(
             expression,
@@ -227,9 +227,9 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
             matchedTags,
             unmatchedTags
         )
-        
+
         _expressionResults.append(result)
-        
+
         return result
     }
 
