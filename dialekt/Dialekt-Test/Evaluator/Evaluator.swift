@@ -1,4 +1,3 @@
-/*
 class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
     init(caseSensitive: Bool = false, emptyIsWildcard: Bool = false) {
         _caseSensitive = caseSensitive
@@ -10,7 +9,10 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
         
-        let result = EvaluationResult(expression.accept(self).isMatch(), _expressionResults)
+        let result = EvaluationResult(
+            expression.accept(self).isMatch(),
+            _expressionResults
+        )
         
         _tags.removeAll(keepCapacity: true)
         _expressionResults.removeAll(keepCapacity: true)
@@ -22,39 +24,36 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     func visitLogicalAnd(node: LogicalAnd) -> ExpressionResult {
         var matchedTags = [String]()
         var isMatch = true
-        
-        for n in node.children() {
-             var result = n.accept(self)
 
-// TODO: something like this?
-//            if var result = n.accept(self) as xxxxProtocol {
-//            }
-            
+        for n in node.children() {
+            let result = n.accept(self)
+
             if !result.isMatch() {
                 isMatch = false
             }
-            
-            for tag in result.matchedTags() {
-                matchedTags.append(tag)
-            }
-        }
 
-//        let unmatchedTags = [String]()
+// TODO: use extend() or join() ?
+//            matchedTags.extend(result.matchedTags())
+            matchedTags.join(result.matchedTags())
+// long way to write it...
+//            for tag in result.matchedTags() {
+//                matchedTags.append(tag)
+//            }
+}
+
+// TODO: this should work?
+//        let unmatchedTags = _tags.filter { return contains($0, matchedTags) == false }
+// long way to write it...
         let unmatchedTags = _tags.filter() {
             tag in
-            for t in self._tags {
+            for t in matchedTags {
                 if t == tag {
                     return false
                 }
-                
             }
             return true
         }
-        
-//            let expressionresult = ExpressionResult(node, isMatch, matchedTags, unmatchedTags)
-//            _expressionResults.append(expressionResult)
 
-        
         return _createExpressionResult(
             node,
             isMatch: isMatch,
@@ -74,16 +73,22 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
             if result.isMatch() {
                 isMatch = true
             }
-            
-            for tag in result.matchedTags() {
-                matchedTags.append(tag)
-            }
+
+// TODO: use extend() or join() ?
+//            matchedTags.extend(result.matchedTags())
+            matchedTags.join(result.matchedTags())
+// long way to write it...
+//            for tag in result.matchedTags() {
+//                matchedTags.append(tag)
+//            }
         }
-            
-//        let unmatchedTags = [String]()
+
+// TODO: this should work?
+//        let unmatchedTags = _tags.filter { return contains($0, matchedTags) == false }
+// long way to write it...
         let unmatchedTags = _tags.filter() {
             tag in
-            for t in self._tags {
+            for t in matchedTags {
                 if tag == t {
                     return false
                 }
@@ -233,4 +238,3 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     var _tags = [String]()
     var _expressionResults = [ExpressionResult]()
 }
-*/

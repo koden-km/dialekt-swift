@@ -46,5 +46,5 @@ class EvaluationResult {
     }
 
     let _isMatch: Bool
-    let _expressionResults: [String:ExpressionResult]
+    let _expressionResults: [String: ExpressionResult]
 }
