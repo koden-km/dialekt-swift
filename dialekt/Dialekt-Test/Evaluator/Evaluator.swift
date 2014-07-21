@@ -34,18 +34,9 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
                 isMatch = false
             }
 
-// TODO: use extend() or join() ?
-//            matchedTags.extend(result.matchedTags())
-            matchedTags.join(result.matchedTags())
-// long way to write it...
-//            for tag in result.matchedTags() {
-//                matchedTags.append(tag)
-//            }
-}
+            matchedTags.extend(result.matchedTags())
+        }
 
-// TODO: this should work?
-//        let unmatchedTags = _tags.filter { return contains($0, matchedTags) == false }
-// long way to write it...
         let unmatchedTags = _tags.filter() {
             tag in
             for t in matchedTags {
@@ -76,25 +67,15 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
                 isMatch = true
             }
 
-// TODO: use extend() or join() ?
-//            matchedTags.extend(result.matchedTags())
-            matchedTags.join(result.matchedTags())
-// long way to write it...
-//            for tag in result.matchedTags() {
-//                matchedTags.append(tag)
-//            }
+            matchedTags.extend(result.matchedTags())
         }
 
-// TODO: this should work?
-//        let unmatchedTags = _tags.filter { return contains($0, matchedTags) == false }
-// long way to write it...
         let unmatchedTags = _tags.filter() {
             tag in
             for t in matchedTags {
                 if tag == t {
                     return false
                 }
-
             }
             return true
         }
@@ -156,8 +137,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
 
     /// Visit a PatternLiteral node.
     func visitPatternLiteral(node: PatternLiteral) -> String {
-        //return preg_quote(node.string(), "/")
-        return "TODO"
+        return NSRegularExpression.escapedPatternForString(node.string())
     }
     
     /// Visit a PatternWildcard node.
