@@ -26,7 +26,7 @@ enum TokenType {
 
 class Token: Equatable {
     class var WildcardString: String {
-        return "*";
+        return "*"
     }
 
     init(

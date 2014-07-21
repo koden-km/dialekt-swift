@@ -27,7 +27,7 @@ class AbstractParser {
     /// Parse an expression that has already been tokenized.
     func parseTokens(tokens: [Token]) -> ExpressionProtocol {
         if (tokens.isEmpty) {
-            return EmptyExpression();
+            return EmptyExpression()
         }
 
         _tokenStack.removeAll()
@@ -40,7 +40,7 @@ class AbstractParser {
 
         if (_currentToken) {
             // TODO: throw "Unexpected " + Token.typeDescription(this.currentToken.type) + ", expected end of input."
-            assert(false)
+            fatalError("Unexpected token, expected end of input.")
         }
 
         return expression
@@ -55,15 +55,15 @@ class AbstractParser {
     func _expectToken(types: TokenType...) {
         if !_currentToken {
             // TODO: throw "Unexpected end of input, expected " + this.formatExpectedTokenNames(types) + "."
-            assert(false)
+            fatalError("Unexpected end of input, expected more tokens.")
         } else if !contains(types, _currentToken!.tokenType) {
             // TODO: throw "Unexpected " + Token.typeDescription(this.currentToken.type) + ", expected " + this.formatExpectedTokenNames(types) + "."
-            assert(false)
+            fatalError("Unexpected token, expected other tokens.")
         }
     }
 
     func _formatExpectedTokenNames(types: TokenType...) -> String {
-        var result = types[0].description;
+        var result = types[0].description
         var index = 1
 
         if (types.count > 1) {
@@ -74,12 +74,12 @@ class AbstractParser {
 
         result += " or " + types[index].description
 
-        return result;
+        return result
     }
 
     /// Advance to the next token.
     func _nextToken() {
-        _previousToken = _currentToken;
+        _previousToken = _currentToken
 
         if ++_tokenIndex >= _tokens.count {
             _currentToken = nil

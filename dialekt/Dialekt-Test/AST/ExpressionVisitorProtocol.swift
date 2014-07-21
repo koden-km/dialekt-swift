@@ -1,6 +1,6 @@
 /// Protocol for expression visitors.
 protocol ExpressionVisitorProtocol {
-    typealias ExpressionVisitorResultType;
+    typealias ExpressionVisitorResultType
 
     /// Visit a LogicalAnd node.
     func visitLogicalAnd(node: LogicalAnd) -> ExpressionVisitorResultType

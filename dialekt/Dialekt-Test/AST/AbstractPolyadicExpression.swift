@@ -1,7 +1,7 @@
 /// A base class providing common functionality for polyadic operators.
 class AbstractPolyadicExpression: AbstractExpression {
     init(_ children: [ExpressionProtocol]) {
-        _children = children;
+        _children = children
 
         super.init()
     }

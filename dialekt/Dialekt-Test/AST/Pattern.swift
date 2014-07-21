@@ -1,7 +1,7 @@
 /// An AST node that represents a pattern-match expression.
 class Pattern: AbstractExpression, ExpressionProtocol {
     init(_ children: [PatternChildProtocol]) {
-        _children = children;
+        _children = children
 
         super.init()
     }

@@ -70,18 +70,18 @@ class TreeRenderer: RendererProtocol, VisitorProtocol {
 //        return output.substring(
 //            0,
 //            output.length() - this.endOfLine.length()
-//        );
+//        )
 
         return "TODO"
     }
 
     func _indent(string: String) -> String {
-//        return "  " + string.replace(this.endOfLine, "  " + this.endOfLine);
+//        return "  " + string.replace(this.endOfLine, "  " + this.endOfLine)
         return "TODO"
     }
 
     func _encodeString(string: String) -> String {
-//        return JSONObject.quote(string);
+//        return JSONObject.quote(string)
         return "TODO"
     }
 

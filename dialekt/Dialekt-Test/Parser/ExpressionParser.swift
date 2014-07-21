@@ -54,7 +54,7 @@ let parts = [String]()
 //        $this->currentToken->value,
 //        -1,
 //        PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-//        );
+//        )
 
         let expression = Pattern()
 

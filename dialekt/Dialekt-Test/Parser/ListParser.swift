@@ -11,7 +11,7 @@ class ListParser: AbstractParser, ParserProtocol {
     /// The expression must be a space-separated list of tags. The result is
     /// an array of strings.
     func parseAsArray(expression: String) -> [String] {
-        return parseAsArray(expression, lexer: Lexer());
+        return parseAsArray(expression, lexer: Lexer())
     }
 
     /// Parse a list of tags into an array.
@@ -35,11 +35,11 @@ class ListParser: AbstractParser, ParserProtocol {
             )
         }
 
-        return tags;
+        return tags
     }
 
     override func _parseExpression() -> ExpressionProtocol {
-        let expression = LogicalAnd();
+        let expression = LogicalAnd()
 
         _startExpression()
 
