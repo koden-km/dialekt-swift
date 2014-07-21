@@ -1,3 +1,5 @@
+import Foundation
+
 class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
     init(caseSensitive: Bool = false, emptyIsWildcard: Bool = false) {
         _caseSensitive = caseSensitive
@@ -119,16 +121,15 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
 
     /// Visit a Tag node.
     func visitTag(node: Tag) -> ExpressionResult {
-//        var predicate: (tag: String) -> Bool
         if _caseSensitive {
-//            predicate = func (tag) ...
-            return _matchTags(node) { return $0 == "TODO" }
+            return _matchTags(node) {
+                return node.name() == $0
+            }
         } else {
-//            predicate = func (tag) ...
-            return _matchTags(node) { return $0 == "TODO" }
+            return _matchTags(node) {
+                return node.name().compare($0, options: NSStringCompareOptions.CaseInsensitiveSearch) == NSComparisonResult.OrderedSame
+            }
         }
-
-//        return _matchTags(node, predicate)
     }
 
     /// Visit a pattern node.
@@ -136,39 +137,21 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         var pattern = "/^"
 
         for n in node.children() {
-//        for n in enumerate(node.children()) {
-            // TESTING: this should work, but i'm messing with the generics
             pattern += n.accept(self)
         }
 
         pattern += "$/"
 
+        var options = NSStringCompareOptions.RegularExpressionSearch
         if !_caseSensitive {
-            pattern += "i"
+            options = NSStringCompareOptions.RegularExpressionSearch | NSStringCompareOptions.CaseInsensitiveSearch
         }
 
-// i have no idea...
-//        let func predicate(tag: String) -> Bool {
-//            //                return preg_match(pattern, tag)
-//            return false   // TODO
-//        }
-// TODO: just stub this for now. make this thing accept an actual predicate
-//        return _matchTags(node) { return false }
-//        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
-//        return _matchTags(node, predicate: (tag: String) -> Bool in return tag == "TODO")
-//        return _matchTags(node) { tag: String in return tag == "TODO")
-        return _matchTags(node) { return $0 == "TODO" }
-
-//            function ($tag) use ($pattern) {
-//                return preg_match($pattern, $tag);
-//            }
-
-
-// i have no idea...
-//            (tag: String) -> Bool in {
-////                return preg_match(pattern, tag)
-//                return false   // TODO
-//            }
+        return _matchTags(node) {
+            return $0.substringWithRange(
+                $0.rangeOfString(pattern, options: options)
+            ).isEmpty == false
+        }
     }
 
     /// Visit a PatternLiteral node.
@@ -176,19 +159,11 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         //return preg_quote(node.string(), "/")
         return "TODO"
     }
-// TESTING: make the return type the same as the expression return types to see if it satisifies the generic protocol
-//func visitPatternLiteral(node: PatternLiteral) -> ExpressionResult {
-//return ExpressionResult(expression: EmptyExpression(), isMatch: false, matchedTags: [], unmatchedTags: [])
-//}
     
     /// Visit a PatternWildcard node.
     func visitPatternWildcard(node: PatternWildcard) -> String {
         return ".*"
     }
-// TESTING: make the return type the same as the expression return types to see if it satisifies the generic protocol
-//func visitPatternWildcard(node: PatternWildcard) -> ExpressionResult {
-//return ExpressionResult(expression: EmptyExpression(), isMatch: false, matchedTags: [], unmatchedTags: [])
-//}
 
     /// Visit a EmptyExpression node.
     func visitEmptyExpression(node: EmptyExpression) -> ExpressionResult {
