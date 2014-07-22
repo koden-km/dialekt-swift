@@ -21,14 +21,14 @@ public class ExpressionParser: AbstractParser {
         )
 
         if TokenType.LogicalNot == _currentToken?.tokenType {
-            return _parseLogicalNot()
+            return parseLogicalNot()
         } else if TokenType.OpenBracket == _currentToken?.tokenType {
-            return _parseNestedExpression()
+            return parseNestedExpression()
 // TODO
 //        } else if false == strpos(_currentToken.value, _wildcardString()) {
 //            return _parseTag()
         } else {
-            return _parsePattern()
+            return parsePattern()
         }
     }
 
@@ -81,7 +81,7 @@ let parts = [String]()
 
         nextToken()
 
-        let expression = _parseExpression()
+        let expression = parseExpression()
 
         expectToken(TokenType.CloseBracket)
 

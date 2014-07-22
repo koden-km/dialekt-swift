@@ -8,7 +8,7 @@ public class EvaluationResult {
         _expressionResults = [:]
 
         for result in expressionResults {
-            let key = _makeKey(result.expression())
+            let key = makeKey(result.expression())
             _expressionResults[key] = result
         }
     }
@@ -20,13 +20,13 @@ public class EvaluationResult {
 
     /// Fetch the result for an individual expression node from the AST.
     public func resultOf(expression: ExpressionProtocol) -> ExpressionResult {
-        let key = _makeKey(expression)
+        let key = makeKey(expression)
         return _expressionResults[key]!
     }
 
     private func makeKey(expression: ExpressionProtocol) -> String {
-        return _stringifyToken(expression.firstToken()) +
-            ":" + _stringifyToken(expression.lastToken())
+        return stringifyToken(expression.firstToken()) +
+            ":" + stringifyToken(expression.lastToken())
     }
 
     private func stringifyToken(token: Token?) -> String {

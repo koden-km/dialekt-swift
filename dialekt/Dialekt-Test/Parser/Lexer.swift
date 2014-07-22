@@ -1,5 +1,15 @@
 public class Lexer: LexerProtocol {
-	/// Tokenize an expression.
+    init() {
+        _currentOffset = 0
+        _currentLine = 1
+        _currentColumn = 0
+        _state = .Begin
+        _tokens = []
+        _nextToken = nil
+        _buffer = ""
+    }
+
+    /// Tokenize an expression.
     public func lex(expression: String) -> [Token] {
 		_currentOffset = 0
 		_currentLine = 1
@@ -9,7 +19,7 @@ public class Lexer: LexerProtocol {
 		_nextToken = nil
 		_buffer = ""
 
-		let length = expression.length()
+		let length = expression.utf16Count
 		var currentChar: Character = "\0"
 		var previousChar: Character = "\0"
 

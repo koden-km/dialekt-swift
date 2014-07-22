@@ -1,3 +1,4 @@
+/*
 /// Render an AST expression to a string representing the tree structure.
 public class TreeRenderer: RendererProtocol, VisitorProtocol {
     public init(endOfLine: String) {
@@ -86,3 +87,4 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
 
     private let _endOfLine: String
 }
+*/

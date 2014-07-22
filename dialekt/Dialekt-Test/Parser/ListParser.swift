@@ -23,25 +23,36 @@ public class ListParser: AbstractParser, ParserProtocol {
         let result = parse(expression, lexer: lexer)
 
         // TODO: might be able to do this with a switch pattern matcher?
-//        if result is LogicalAnd {
-//            for child in (result as LogicalAnd).children() {
-//                tags.append(
-//                    (child as Tag).name()
-//                )
+        if result is LogicalAnd {
+            for child in (result as LogicalAnd).children() {
+                tags.append(
+                    (child as Tag).name()
+                )
+            }
+        } else if result is Tag {
+            tags.append(
+                (result as Tag).name()
+            )
+        }
+// Can it be done like this?
+//        if let logicalAndResult as? LogicalAnd {
+//            for child in logicalAndResult.children() {
+//                tags.append(child.name())
 //            }
-//        } else if result is Tag {
-//            tags.append(
-//                (result as Tag).name()
-//            )
+//        } else if let tagResult as Tag {
+//            tags.append(tagResult.name())
 //        }
 // Can it be done like this?
-        if let logicalAndResult as LogicalAnd {
-            for child in logicalAndResult.children() {
-                tags.append(child.name())
-            }
-        } else if let tagResult as Tag {
-            tags.append(tagResult.name())
-        }
+//        switch result {
+//        case let logicalAndResult = result as LogicalAnd: {
+//            for child in logicalAndResult.children() {
+//                tags.append(child.name())
+//            }
+//        }
+//        case let tagResult = result as Tag: {
+//            tags.append(tagResult.name())
+//            }
+//        }
 
         return tags
     }

@@ -36,7 +36,7 @@ public class AbstractParser {
         _previousToken = nil
         _currentToken = tokens[0]
 
-        let expression = _parseExpression()
+        let expression = parseExpression()
 
         if (_currentToken) {
             // TODO: throw "Unexpected " + Token.typeDescription(this.currentToken.type) + ", expected end of input."
