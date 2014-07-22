@@ -24,12 +24,12 @@ public class EvaluationResult {
         return _expressionResults[key]!
     }
 
-    private func _makeKey(expression: ExpressionProtocol) -> String {
+    private func makeKey(expression: ExpressionProtocol) -> String {
         return _stringifyToken(expression.firstToken()) +
             ":" + _stringifyToken(expression.lastToken())
     }
 
-    private func _stringifyToken(token: Token?) -> String {
+    private func stringifyToken(token: Token?) -> String {
         if let t = token {
             let sep = ","
             var key = t.tokenType.description + sep

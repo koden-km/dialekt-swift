@@ -1,4 +1,3 @@
-/*
 /// Render an AST expression to a string representing the tree structure.
 public class TreeRenderer: RendererProtocol, VisitorProtocol {
     public init(endOfLine: String) {
@@ -20,50 +19,50 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
     }
 
     /// Visit a LogicalAnd node.
-    public func visitLogicalAnd(node: LogicalAnd) -> String {
-        return "AND" + _endOfLine + _renderChildren(node.children())
+    public func visit(node: LogicalAnd) -> String {
+        return "AND" + _endOfLine + renderChildren(node.children())
     }
 
     /// Visit a LogicalOr node.
-    public func visitLogicalOr(node: LogicalOr) -> String {
-        return "OR" + _endOfLine + _renderChildren(node.children())
+    public func visit(node: LogicalOr) -> String {
+        return "OR" + _endOfLine + renderChildren(node.children())
     }
 
     /// Visit a LogicalNot node.
-    public func visitLogicalNot(node: LogicalNot) -> String {
-        return "NOT" + _endOfLine + _indent("- " + node.child().accept(self))
+    public func visit(node: LogicalNot) -> String {
+        return "NOT" + _endOfLine + indent("- " + node.child().accept(self))
     }
 
     /// Visit a Tag node.
-    public func visitTag(node: Tag) -> String {
-        return "TAG " + _encodeString(node.name())
+    public func visit(node: Tag) -> String {
+        return "TAG " + encodeString(node.name())
     }
 
     /// Visit a Pattern node.
-    public func visitPattern(node: Pattern) -> String {
-        return "PATTERN" + _endOfLine + _renderChildren(node.children())
+    public func visit(node: Pattern) -> String {
+        return "PATTERN" + _endOfLine + renderChildren(node.children())
     }
 
     /// Visit a PatternLiteral node.
-    public func visitPatternLiteral(node: PatternLiteral) -> String {
-        return "LITTERAL" + _encodeString(node.string())
+    public func visit(node: PatternLiteral) -> String {
+        return "LITTERAL" + encodeString(node.string())
     }
 
     /// Visit a PatternWildcard node.
-    public func visitPatternWildcard(node: PatternWildcard) -> String {
+    public func visit(node: PatternWildcard) -> String {
         return "WILDCARD"
     }
 
     /// Visit a EmptyExpression node.
-    public func visitEmptyExpression(node: EmptyExpression) -> String {
+    public func visit(node: EmptyExpression) -> String {
         return "EMPTY"
     }
 
-    private func _renderChildren<T: NodeProtocol>(children: [T]) -> String {
+    private func renderChildren<T: NodeProtocol>(children: [T]) -> String {
         var output = ""
 
         for n in children {
-            output += _indent("- " + n.accept(self)) + _endOfLine
+            output += indent("- " + n.accept(self)) + _endOfLine
         }
 
 // TODO
@@ -75,16 +74,15 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
         return "TODO"
     }
 
-    private func _indent(string: String) -> String {
+    private func indent(string: String) -> String {
 //        return "  " + string.replace(this.endOfLine, "  " + this.endOfLine)
         return "TODO"
     }
 
-    private func _encodeString(string: String) -> String {
+    private func encodeString(string: String) -> String {
 //        return JSONObject.quote(string)
         return "TODO"
     }
 
     private let _endOfLine: String
 }
-*/

@@ -23,44 +23,52 @@ public class ListParser: AbstractParser, ParserProtocol {
         let result = parse(expression, lexer: lexer)
 
         // TODO: might be able to do this with a switch pattern matcher?
-        if result is LogicalAnd {
-            for child in (result as LogicalAnd).children() {
-                tags.append(
-                    (child as Tag).name()
-                )
+//        if result is LogicalAnd {
+//            for child in (result as LogicalAnd).children() {
+//                tags.append(
+//                    (child as Tag).name()
+//                )
+//            }
+//        } else if result is Tag {
+//            tags.append(
+//                (result as Tag).name()
+//            )
+//        }
+// Can it be done like this?
+        if let logicalAndResult as LogicalAnd {
+            for child in logicalAndResult.children() {
+                tags.append(child.name())
             }
-        } else if result is Tag {
-            tags.append(
-                (result as Tag).name()
-            )
+        } else if let tagResult as Tag {
+            tags.append(tagResult.name())
         }
 
         return tags
     }
 
-    internal override func _parseExpression() -> ExpressionProtocol {
+    internal override func parseExpression() -> ExpressionProtocol {
         let expression = LogicalAnd()
 
-        _startExpression()
+        startExpression()
 
         while _currentToken {
-            _expectToken(TokenType.Text)
+            expectToken(TokenType.Text)
 
             if _currentToken!.value.rangeOfString(wildcardString) {
                 // TODO: throw "Unexpected wildcard string \"" + this.wildcardString() + "\", in tag \"" + this.currentToken.value + "\"."
-                assert(false)
+				fatalError("Unexpected wildcard string in tag.")
             }
 
             let tag = Tag(_currentToken!.value)
 
-            _startExpression()
-            _nextToken()
-            _endExpression(tag)
+            startExpression()
+            nextToken()
+            endExpression(tag)
 
             expression.add(tag)
         }
 
-        _endExpression(expression)
+        endExpression(expression)
 
         if expression.children().count == 1 {
             return expression.children()[0]

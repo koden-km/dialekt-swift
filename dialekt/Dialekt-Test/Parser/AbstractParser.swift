@@ -46,13 +46,13 @@ public class AbstractParser {
         return expression
     }
 
-    internal func _parseExpression() -> ExpressionProtocol {
+    internal func parseExpression() -> ExpressionProtocol {
         assert(false, "This method must be overriden.")
 
         return EmptyExpression()
     }
 
-    internal func _expectToken(types: TokenType...) {
+    internal func expectToken(types: TokenType...) {
         if !_currentToken {
             // TODO: throw "Unexpected end of input, expected " + this.formatExpectedTokenNames(types) + "."
             fatalError("Unexpected end of input, expected more tokens.")
@@ -62,7 +62,7 @@ public class AbstractParser {
         }
     }
 
-    internal func _formatExpectedTokenNames(types: TokenType...) -> String {
+    internal func formatExpectedTokenNames(types: TokenType...) -> String {
         var result = types[0].description
         var index = 1
 
@@ -78,7 +78,7 @@ public class AbstractParser {
     }
 
     /// Advance to the next token.
-    internal func _nextToken() {
+    internal func nextToken() {
         _previousToken = _currentToken
 
         if ++_tokenIndex >= _tokens.count {
@@ -89,12 +89,12 @@ public class AbstractParser {
     }
 
     /// Record the start of an expression.
-    internal func _startExpression() {
+    internal func startExpression() {
         _tokenStack.append(_currentToken!)
     }
 
     /// Record the end of an expression.
-    internal func _endExpression(expression: ExpressionProtocol) {
+    internal func endExpression(expression: ExpressionProtocol) {
         expression.setTokens(
             _tokenStack.removeLast(),
             lastToken: _previousToken!
@@ -105,5 +105,6 @@ public class AbstractParser {
     private var _tokens: [Token]
     private var _tokenIndex: Int
     private var _previousToken: Token?
+
     internal var _currentToken: Token?
 }

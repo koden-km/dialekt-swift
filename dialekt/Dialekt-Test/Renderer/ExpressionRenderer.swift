@@ -16,12 +16,12 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a LogicalAnd node.
     public func visit(node: LogicalAnd) -> String {
-        return _implodeNodes("AND", node.children())
+        return implodeNodes("AND", node.children())
     }
 
     /// Visit a LogicalOr node.
     public func visit(node: LogicalOr) -> String {
-        return _implodeNodes("OR", node.children())
+        return implodeNodes("OR", node.children())
     }
 
     /// Visit a LogicalNot node.
@@ -31,7 +31,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a Tag node.
     public func visit(node: Tag) -> String {
-        return _escapeString(node.name())
+        return escapeString(node.name())
     }
 
     /// Visit a pattern node.
@@ -51,7 +51,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     /// Visit a PatternLiteral node.
     public func visit(node: PatternLiteral) -> String {
         // TODO: fail if node.string() contains wildcard
-        return _escapeString(node.string())
+        return escapeString(node.string())
     }
 
     /// Visit a PatternWildcard node.
@@ -59,7 +59,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
         return _wildcardString
     }
 
-    private func _implodeNodes(separator: String, _ nodes: [ExpressionProtocol]) -> String {
+    private func implodeNodes(separator: String, _ nodes: [ExpressionProtocol]) -> String {
         return (" " + separator + " ").join(
             nodes.map {
                 $0.accept(self)
@@ -67,7 +67,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
         )
     }
 
-    private func _escapeString(string: String) -> String {
+    private func escapeString(string: String) -> String {
         let stringLower = string.lowercaseString
         if "and" == stringLower || "or" == stringLower || "not" == stringLower {
             return "\"" + string + "\""

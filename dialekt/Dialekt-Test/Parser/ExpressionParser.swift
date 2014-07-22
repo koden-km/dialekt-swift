@@ -3,18 +3,18 @@ import Foundation
 public class ExpressionParser: AbstractParser {
     public var logicalOrByDefault = false
 
-    internal override func _parseExpression() -> ExpressionProtocol {
-        _startExpression()
+    internal override func parseExpression() -> ExpressionProtocol {
+        startExpression()
 
-        var expression = _parseUnaryExpression()
-        expression = _parseCompoundExpression(expression)
+        var expression = parseUnaryExpression()
+        expression = parseCompoundExpression(expression)
 
-        _endExpression(expression)
+        endExpression(expression)
         return expression
     }
 
-    private func _parseUnaryExpression() -> ExpressionProtocol {
-        _expectToken(
+    private func parseUnaryExpression() -> ExpressionProtocol {
+        expectToken(
             TokenType.Text,
             TokenType.LogicalNot,
             TokenType.OpenBracket
@@ -32,22 +32,22 @@ public class ExpressionParser: AbstractParser {
         }
     }
 
-    private func _parseTag() -> ExpressionProtocol {
-        _startExpression()
+    private func parseTag() -> ExpressionProtocol {
+        startExpression()
 
         let expression = Tag(
             _currentToken!.value
         )
 
-        _nextToken()
+        nextToken()
 
-        _endExpression(expression)
+        endExpression(expression)
 
         return expression
     }
 
-    private func _parsePattern() -> ExpressionProtocol {
-        _startExpression()
+    private func parsePattern() -> ExpressionProtocol {
+        startExpression()
 
 // TODO
 let parts = [String]()
@@ -69,49 +69,49 @@ let parts = [String]()
             }
         }
 
-        _nextToken()
+        nextToken()
 
-        _endExpression(expression)
+        endExpression(expression)
 
         return expression
     }
 
-    private func _parseNestedExpression() -> ExpressionProtocol {
-        _startExpression()
+    private func parseNestedExpression() -> ExpressionProtocol {
+        startExpression()
 
-        _nextToken()
+        nextToken()
 
         let expression = _parseExpression()
 
-        _expectToken(TokenType.CloseBracket)
+        expectToken(TokenType.CloseBracket)
 
-        _nextToken()
+        nextToken()
 
-        _endExpression(expression)
+        endExpression(expression)
 
         return expression
     }
 
-    private func _parseLogicalNot() -> ExpressionProtocol {
-        _startExpression()
+    private func parseLogicalNot() -> ExpressionProtocol {
+        startExpression()
 
-        _nextToken()
+        nextToken()
 
         let expression = LogicalNot(
-            _parseUnaryExpression()
+            parseUnaryExpression()
         )
 
-        _endExpression(expression)
+        endExpression(expression)
 
         return expression
     }
 
-    private func _parseCompoundExpression(expresison: ExpressionProtocol, minimumPrecedence: Int = 0) -> ExpressionProtocol {
+    private func parseCompoundExpression(expresison: ExpressionProtocol, minimumPrecedence: Int = 0) -> ExpressionProtocol {
         // TODO
         return expression
     }
 
-    private func _parseOperator() -> (operator: TokenType?, isExplicit: Bool) {
+    private func parseOperator() -> (operator: TokenType?, isExplicit: Bool) {
         // End of input ...
         if !_currentToken {
             return (nil, false)
@@ -133,7 +133,7 @@ let parts = [String]()
         }
     }
 
-    private func _operatorPrecedence(operator: TokenType?) -> Int {
+    private func operatorPrecedence(operator: TokenType?) -> Int {
         if operator == TokenType.LogicalAnd {
             return 1
         } else if operator == TokenType.LogicalOr {
