@@ -1,3 +1,5 @@
+import Foundation
+
 public class ExpressionParser: AbstractParser {
     public var logicalOrByDefault = false
 
@@ -49,6 +51,7 @@ public class ExpressionParser: AbstractParser {
 
 // TODO
 let parts = [String]()
+//NSRegularExpression.escapedPatternForString(wildcardString)
 //        $parts = preg_split(
 //        '/(' . preg_quote($this->wildcardString(), '/') . ')/',
 //        $this->currentToken->value,
