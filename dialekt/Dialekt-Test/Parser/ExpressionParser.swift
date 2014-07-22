@@ -1,7 +1,7 @@
-class ExpressionParser: AbstractParser {
-    var logicalOrByDefault = false
+public class ExpressionParser: AbstractParser {
+    public var logicalOrByDefault = false
 
-    override func _parseExpression() -> ExpressionProtocol {
+    internal override func _parseExpression() -> ExpressionProtocol {
         _startExpression()
 
         var expression = _parseUnaryExpression()
@@ -11,7 +11,7 @@ class ExpressionParser: AbstractParser {
         return expression
     }
 
-    func _parseUnaryExpression() -> ExpressionProtocol {
+    private func _parseUnaryExpression() -> ExpressionProtocol {
         _expectToken(
             TokenType.Text,
             TokenType.LogicalNot,
@@ -30,7 +30,7 @@ class ExpressionParser: AbstractParser {
         }
     }
 
-    func _parseTag() -> ExpressionProtocol {
+    private func _parseTag() -> ExpressionProtocol {
         _startExpression()
 
         let expression = Tag(
@@ -44,7 +44,7 @@ class ExpressionParser: AbstractParser {
         return expression
     }
 
-    func _parsePattern() -> ExpressionProtocol {
+    private func _parsePattern() -> ExpressionProtocol {
         _startExpression()
 
 // TODO
@@ -73,7 +73,7 @@ let parts = [String]()
         return expression
     }
 
-    func _parseNestedExpression() -> ExpressionProtocol {
+    private func _parseNestedExpression() -> ExpressionProtocol {
         _startExpression()
 
         _nextToken()
@@ -89,7 +89,7 @@ let parts = [String]()
         return expression
     }
 
-    func _parseLogicalNot() -> ExpressionProtocol {
+    private func _parseLogicalNot() -> ExpressionProtocol {
         _startExpression()
 
         _nextToken()
@@ -103,12 +103,12 @@ let parts = [String]()
         return expression
     }
 
-    func _parseCompoundExpression(expresison: ExpressionProtocol, minimumPrecedence: Int = 0) -> ExpressionProtocol {
+    private func _parseCompoundExpression(expresison: ExpressionProtocol, minimumPrecedence: Int = 0) -> ExpressionProtocol {
         // TODO
         return expression
     }
 
-    func _parseOperator() -> (operator: TokenType?, isExplicit: Bool) {
+    private func _parseOperator() -> (operator: TokenType?, isExplicit: Bool) {
         // End of input ...
         if !_currentToken {
             return (nil, false)
@@ -130,7 +130,7 @@ let parts = [String]()
         }
     }
 
-    func _operatorPrecedence(operator: TokenType?) -> Int {
+    private func _operatorPrecedence(operator: TokenType?) -> Int {
         if operator == TokenType.LogicalAnd {
             return 1
         } else if operator == TokenType.LogicalOr {

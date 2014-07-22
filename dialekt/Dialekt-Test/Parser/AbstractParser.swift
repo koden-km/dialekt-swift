@@ -1,31 +1,31 @@
-class AbstractParser {
-    var wildcardString: String
+public class AbstractParser {
+    public var wildcardString: String
 
-    init(_ wildcardString: String) {
+    public init(_ wildcardString: String) {
         self.wildcardString = wildcardString
         _tokenStack = []
         _tokens = []
         _tokenIndex = 0
     }
 
-    convenience init() {
+    public convenience init() {
         self.init(Token.WildcardString)
     }
 
     /// Parse an expression.
-    func parse(expression: String) -> ExpressionProtocol {
+    public func parse(expression: String) -> ExpressionProtocol {
         return parse(expression, lexer: Lexer())
     }
 
     /// Parse an expression using a specific lexer.
-    func parse(expression: String, lexer: LexerProtocol) -> ExpressionProtocol {
+    public func parse(expression: String, lexer: LexerProtocol) -> ExpressionProtocol {
         return parseTokens(
             lexer.lex(expression)
         )
     }
 
     /// Parse an expression that has already been tokenized.
-    func parseTokens(tokens: [Token]) -> ExpressionProtocol {
+    public func parseTokens(tokens: [Token]) -> ExpressionProtocol {
         if (tokens.isEmpty) {
             return EmptyExpression()
         }
@@ -46,13 +46,13 @@ class AbstractParser {
         return expression
     }
 
-    func _parseExpression() -> ExpressionProtocol {
+    internal func _parseExpression() -> ExpressionProtocol {
         assert(false, "This method must be overriden.")
 
         return EmptyExpression()
     }
 
-    func _expectToken(types: TokenType...) {
+    internal func _expectToken(types: TokenType...) {
         if !_currentToken {
             // TODO: throw "Unexpected end of input, expected " + this.formatExpectedTokenNames(types) + "."
             fatalError("Unexpected end of input, expected more tokens.")
@@ -62,7 +62,7 @@ class AbstractParser {
         }
     }
 
-    func _formatExpectedTokenNames(types: TokenType...) -> String {
+    internal func _formatExpectedTokenNames(types: TokenType...) -> String {
         var result = types[0].description
         var index = 1
 
@@ -78,7 +78,7 @@ class AbstractParser {
     }
 
     /// Advance to the next token.
-    func _nextToken() {
+    internal func _nextToken() {
         _previousToken = _currentToken
 
         if ++_tokenIndex >= _tokens.count {
@@ -89,21 +89,21 @@ class AbstractParser {
     }
 
     /// Record the start of an expression.
-    func _startExpression() {
+    internal func _startExpression() {
         _tokenStack.append(_currentToken!)
     }
 
     /// Record the end of an expression.
-    func _endExpression(expression: ExpressionProtocol) {
+    internal func _endExpression(expression: ExpressionProtocol) {
         expression.setTokens(
             _tokenStack.removeLast(),
             lastToken: _previousToken!
         )
     }
 
-    var _tokenStack: [Token]
-    var _tokens: [Token]
-    var _tokenIndex: Int
-    var _previousToken: Token?
-    var _currentToken: Token?
+    private var _tokenStack: [Token]
+    private var _tokens: [Token]
+    private var _tokenIndex: Int
+    private var _previousToken: Token?
+    internal var _currentToken: Token?
 }

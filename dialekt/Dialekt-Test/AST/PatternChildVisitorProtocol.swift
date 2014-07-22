@@ -1,5 +1,5 @@
 /// Protocol for pattern child visitors.
-protocol PatternChildVisitorProtocol {
+public protocol PatternChildVisitorProtocol {
     typealias PatternChildVisitorResultType
 
     /// Visit a PatternLiteral node.

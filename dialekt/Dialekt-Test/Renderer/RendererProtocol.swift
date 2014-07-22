@@ -1,4 +1,4 @@
-protocol RendererProtocol {
+public protocol RendererProtocol {
     /// Render an expression to a string.
-    func render(expression: ExpressionProtocol) -> String
+     func render(expression: ExpressionProtocol) -> String
 }

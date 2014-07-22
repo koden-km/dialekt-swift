@@ -1,4 +1,4 @@
-enum TokenType {
+public enum TokenType {
     case LogicalAnd
     case LogicalOr
     case LogicalNot
@@ -6,7 +6,7 @@ enum TokenType {
     case OpenBracket
     case CloseBracket
 
-    var description: String {
+    public var description: String {
         switch self {
         case .LogicalAnd:
             return "AND operator"
@@ -24,12 +24,12 @@ enum TokenType {
     }
 }
 
-class Token: Equatable {
-    class var WildcardString: String {
+public class Token: Equatable {
+    public class var WildcardString: String {
         return "*"
     }
 
-    init(
+    public init(
         _ type: TokenType,
         _ value: String,
         _ startOffset: Int,
@@ -45,15 +45,15 @@ class Token: Equatable {
         self.columnNumber = columnNumber
     }
 
-    let tokenType: TokenType
-    let value: String
-    let startOffset: Int
-    let endOffset: Int
-    let lineNumber: Int
-    let columnNumber: Int
+    public let tokenType: TokenType
+    public let value: String
+    public let startOffset: Int
+    public let endOffset: Int
+    public let lineNumber: Int
+    public let columnNumber: Int
 }
 
-@infix func ==(lhs: Token, rhs: Token) -> Bool {
+@infix public func ==(lhs: Token, rhs: Token) -> Bool {
     return lhs.tokenType == rhs.tokenType
         && lhs.value == rhs.value
         && lhs.startOffset == rhs.startOffset

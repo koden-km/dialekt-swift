@@ -1,6 +1,6 @@
 /// The result for an invidiual expression in the AST.
-class ExpressionResult {
-    init(
+public class ExpressionResult {
+    public init(
         _ expression: ExpressionProtocol,
         _ isMatch: Bool,
         _ matchedTags: [String],
@@ -13,27 +13,27 @@ class ExpressionResult {
     }
 
     /// Fetch the expression to which this result applies.
-    func expression() -> ExpressionProtocol {
+    public func expression() -> ExpressionProtocol {
         return _expression
     }
 
     /// Indicates whether or not the expression matched the tag set.
-    func isMatch() -> Bool {
+    public func isMatch() -> Bool {
         return _isMatch
     }
 
     /// Fetch the set of tags that matched.
-    func matchedTags() -> [String] {
+    public func matchedTags() -> [String] {
         return _matchedTags
     }
 
     /// Fetch set of tags that did not match.
-    func unmatchedTags() -> [String] {
+    public func unmatchedTags() -> [String] {
         return _unmatchedTags
     }
 
-    let _expression: ExpressionProtocol
-    let _isMatch: Bool
-    let _matchedTags: [String]
-    let _unmatchedTags: [String]
+    private let _expression: ExpressionProtocol
+    private let _isMatch: Bool
+    private let _matchedTags: [String]
+    private let _unmatchedTags: [String]
 }

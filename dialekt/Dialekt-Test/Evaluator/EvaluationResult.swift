@@ -1,6 +1,6 @@
 /// The overall result of the evaluation of an expression.
-class EvaluationResult {
-    init(
+public class EvaluationResult {
+    public init(
         _ isMatch: Bool,
         _ expressionResults: [ExpressionResult]
     ) {
@@ -14,22 +14,22 @@ class EvaluationResult {
     }
 
     /// Indicates whether or not the expression matched the tag set.
-    func isMatch() -> Bool {
+    public func isMatch() -> Bool {
         return _isMatch
     }
 
     /// Fetch the result for an individual expression node from the AST.
-    func resultOf(expression: ExpressionProtocol) -> ExpressionResult {
+    public func resultOf(expression: ExpressionProtocol) -> ExpressionResult {
         let key = _makeKey(expression)
         return _expressionResults[key]!
     }
 
-    func _makeKey(expression: ExpressionProtocol) -> String {
+    private func _makeKey(expression: ExpressionProtocol) -> String {
         return _stringifyToken(expression.firstToken()) +
             ":" + _stringifyToken(expression.lastToken())
     }
 
-    func _stringifyToken(token: Token?) -> String {
+    private func _stringifyToken(token: Token?) -> String {
         if let t = token {
             let sep = ","
             var key = t.tokenType.description + sep
@@ -44,6 +44,6 @@ class EvaluationResult {
         return ""
     }
 
-    let _isMatch: Bool
-    let _expressionResults: [String: ExpressionResult]
+    private let _isMatch: Bool
+    private let _expressionResults: [String: ExpressionResult]
 }

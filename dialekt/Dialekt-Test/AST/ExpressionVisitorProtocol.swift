@@ -1,5 +1,5 @@
 /// Protocol for expression visitors.
-protocol ExpressionVisitorProtocol {
+public protocol ExpressionVisitorProtocol {
     typealias ExpressionVisitorResultType
 
     /// Visit a LogicalAnd node.

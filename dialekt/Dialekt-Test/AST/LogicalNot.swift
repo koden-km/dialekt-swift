@@ -1,23 +1,23 @@
 /// An AST node that represents the logical NOT operator.
-class LogicalNot: AbstractExpression, ExpressionProtocol {
-    init(_ child: ExpressionProtocol) {
+public class LogicalNot: AbstractExpression, ExpressionProtocol {
+    public init(_ child: ExpressionProtocol) {
         _child = child
     }
 
     /// Fetch the expression being inverted by the NOT operator.
-    func child() -> ExpressionProtocol {
+    public func child() -> ExpressionProtocol {
         return _child
     }
 
     /// Pass this node to the appropriate method on the given visitor.
-    func accept<T: VisitorProtocol>(visitor: T) -> T.VisitorResultType {
+    public func accept<T: VisitorProtocol>(visitor: T) -> T.VisitorResultType {
         return visitor.visit(self) as T.VisitorResultType
     }
 
     /// Pass this node to the appropriate method on the given visitor.
-    func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.ExpressionVisitorResultType {
+    public func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.ExpressionVisitorResultType {
         return visitor.visit(self)
     }
 
-    let _child: ExpressionProtocol
+    private let _child: ExpressionProtocol
 }

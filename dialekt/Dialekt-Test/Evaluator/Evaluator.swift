@@ -1,13 +1,13 @@
 import Foundation
 
-class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
-    init(caseSensitive: Bool = false, emptyIsWildcard: Bool = false) {
+public class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisitorProtocol {
+    public init(caseSensitive: Bool = false, emptyIsWildcard: Bool = false) {
         _caseSensitive = caseSensitive
         _emptyIsWildcard = emptyIsWildcard
     }
 
     /// Evaluate an expression against a set of tags.
-    func evaluate(expression: ExpressionProtocol, tags: [String]) -> EvaluationResult {
+    public func evaluate(expression: ExpressionProtocol, tags: [String]) -> EvaluationResult {
         _tags = tags
         _expressionResults.removeAll(keepCapacity: true)
         
@@ -23,7 +23,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a LogicalAnd node.
-    func visit(node: LogicalAnd) -> ExpressionResult {
+    public func visit(node: LogicalAnd) -> ExpressionResult {
         var matchedTags = [String]()
         var isMatch = true
 
@@ -56,7 +56,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a LogicalOr node.
-    func visit(node: LogicalOr) -> ExpressionResult {
+    public func visit(node: LogicalOr) -> ExpressionResult {
         var matchedTags = [String]()
         var isMatch = false
 
@@ -89,7 +89,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a LogicalNot node.
-    func visit(node: LogicalNot) -> ExpressionResult {
+    public func visit(node: LogicalNot) -> ExpressionResult {
         let childResult = node.child().accept(self)
 
         return _createExpressionResult(
@@ -101,7 +101,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a Tag node.
-    func visit(node: Tag) -> ExpressionResult {
+    public func visit(node: Tag) -> ExpressionResult {
         if _caseSensitive {
             return _matchTags(node) {
                 return node.name() == $0
@@ -114,7 +114,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a pattern node.
-    func visit(node: Pattern) -> ExpressionResult {
+    public func visit(node: Pattern) -> ExpressionResult {
         var pattern = "/^"
 
         for n in node.children() {
@@ -134,17 +134,17 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a PatternLiteral node.
-    func visit(node: PatternLiteral) -> String {
+    public func visit(node: PatternLiteral) -> String {
         return NSRegularExpression.escapedPatternForString(node.string())
     }
     
     /// Visit a PatternWildcard node.
-    func visit(node: PatternWildcard) -> String {
+    public func visit(node: PatternWildcard) -> String {
         return ".*"
     }
 
     /// Visit a EmptyExpression node.
-    func visit(node: EmptyExpression) -> ExpressionResult {
+    public func visit(node: EmptyExpression) -> ExpressionResult {
         return _createExpressionResult(
             node,
             isMatch: _emptyIsWildcard,
@@ -153,7 +153,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         )
     }
 
-    func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult {
+    private func _matchTags(expression: ExpressionProtocol, predicate: (tag: String) -> Bool) -> ExpressionResult {
         var matchedTags = [String]()
         var unmatchedTags = [String]()
 
@@ -173,7 +173,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         )
     }
 
-    func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) -> ExpressionResult {
+    private func _createExpressionResult(expression: ExpressionProtocol, isMatch: Bool, matchedTags: [String], unmatchedTags: [String]) -> ExpressionResult {
         let result = ExpressionResult(
             expression,
             isMatch,
@@ -186,8 +186,8 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         return result
     }
 
-    let _caseSensitive: Bool
-    let _emptyIsWildcard: Bool
-    var _tags = [String]()
-    var _expressionResults = [ExpressionResult]()
+    private let _caseSensitive: Bool
+    private let _emptyIsWildcard: Bool
+    private var _tags = [String]()
+    private var _expressionResults = [ExpressionResult]()
 }

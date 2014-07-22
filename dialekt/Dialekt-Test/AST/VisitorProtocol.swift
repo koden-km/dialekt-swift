@@ -1,5 +1,5 @@
 /// Protocol for node visitors.
-protocol VisitorProtocol: ExpressionVisitorProtocol, PatternChildVisitorProtocol {
+public protocol VisitorProtocol: ExpressionVisitorProtocol, PatternChildVisitorProtocol {
     typealias VisitorResultType
 
     /// Visit a LogicalAnd node.

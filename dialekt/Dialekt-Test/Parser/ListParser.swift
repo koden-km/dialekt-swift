@@ -5,12 +5,12 @@ import Foundation
 /// The expression must be a space-separated list of tags. The result is
 /// either EmptyExpression, a single Tag node, or a LogicalAnd node
 /// containing only Tag nodes.
-class ListParser: AbstractParser, ParserProtocol {
+public class ListParser: AbstractParser, ParserProtocol {
     /// Parse a list of tags into an array.
     ///
     /// The expression must be a space-separated list of tags. The result is
     /// an array of strings.
-    func parseAsArray(expression: String) -> [String] {
+    public func parseAsArray(expression: String) -> [String] {
         return parseAsArray(expression, lexer: Lexer())
     }
 
@@ -18,7 +18,7 @@ class ListParser: AbstractParser, ParserProtocol {
     ///
     /// The expression must be a space-separated list of tags. The result is
     /// an array of strings.
-    func parseAsArray(expression: String, lexer: LexerProtocol) -> [String] {
+    public func parseAsArray(expression: String, lexer: LexerProtocol) -> [String] {
         var tags = [String]()
         let result = parse(expression, lexer: lexer)
 
@@ -38,7 +38,7 @@ class ListParser: AbstractParser, ParserProtocol {
         return tags
     }
 
-    override func _parseExpression() -> ExpressionProtocol {
+    internal override func _parseExpression() -> ExpressionProtocol {
         let expression = LogicalAnd()
 
         _startExpression()

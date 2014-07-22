@@ -1,7 +1,7 @@
 /// An AST node that is an expression.
 ///
 /// Not all nodes in the tree represent an entire (sub-)expression.
-protocol ExpressionProtocol: NodeProtocol {
+public protocol ExpressionProtocol: NodeProtocol {
     /// Fetch the first token from the source that is part of this expression.
     func firstToken() -> Token?
 
