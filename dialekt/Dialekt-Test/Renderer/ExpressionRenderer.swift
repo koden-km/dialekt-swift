@@ -15,27 +15,27 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     }
 
     /// Visit a LogicalAnd node.
-    func visitLogicalAnd(node: LogicalAnd) -> String {
+    func visit(node: LogicalAnd) -> String {
         return _implodeNodes("AND", node.children())
     }
 
     /// Visit a LogicalOr node.
-    func visitLogicalOr(node: LogicalOr) -> String {
+    func visit(node: LogicalOr) -> String {
         return _implodeNodes("OR", node.children())
     }
 
     /// Visit a LogicalNot node.
-    func visitLogicalNot(node: LogicalNot) -> String {
+    func visit(node: LogicalNot) -> String {
         return "NOT " + node.child().accept(self)
     }
 
     /// Visit a Tag node.
-    func visitTag(node: Tag) -> String {
+    func visit(node: Tag) -> String {
         return _escapeString(node.name())
     }
 
     /// Visit a pattern node.
-    func visitPattern(node: Pattern) -> String {
+    func visit(node: Pattern) -> String {
         return "".join(
             node.children().map {
                 $0.accept(self)
@@ -44,18 +44,18 @@ class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     }
 
     /// Visit a EmptyExpression node.
-    func visitEmptyExpression(node: EmptyExpression) -> String {
+    func visit(node: EmptyExpression) -> String {
         return "NOT " + _wildcardString
     }
 
     /// Visit a PatternLiteral node.
-    func visitPatternLiteral(node: PatternLiteral) -> String {
+    func visit(node: PatternLiteral) -> String {
         // TODO: fail if node.string() contains wildcard
         return _escapeString(node.string())
     }
 
     /// Visit a PatternWildcard node.
-    func visitPatternWildcard(node: PatternWildcard) -> String {
+    func visit(node: PatternWildcard) -> String {
         return _wildcardString
     }
 

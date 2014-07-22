@@ -3,20 +3,20 @@ protocol ExpressionVisitorProtocol {
     typealias ExpressionVisitorResultType
 
     /// Visit a LogicalAnd node.
-    func visitLogicalAnd(node: LogicalAnd) -> ExpressionVisitorResultType
+    func visit(node: LogicalAnd) -> ExpressionVisitorResultType
 
     /// Visit a LogicalOr node.
-    func visitLogicalOr(node: LogicalOr) -> ExpressionVisitorResultType
+    func visit(node: LogicalOr) -> ExpressionVisitorResultType
 
     /// Visit a LogicalNot node.
-    func visitLogicalNot(node: LogicalNot) -> ExpressionVisitorResultType
+    func visit(node: LogicalNot) -> ExpressionVisitorResultType
 
     /// Visit a Tag node.
-    func visitTag(node: Tag) -> ExpressionVisitorResultType
+    func visit(node: Tag) -> ExpressionVisitorResultType
 
     /// Visit a pattern node.
-    func visitPattern(node: Pattern) -> ExpressionVisitorResultType
+    func visit(node: Pattern) -> ExpressionVisitorResultType
 
     /// Visit a EmptyExpression node.
-    func visitEmptyExpression(node: EmptyExpression) -> ExpressionVisitorResultType
+    func visit(node: EmptyExpression) -> ExpressionVisitorResultType
 }

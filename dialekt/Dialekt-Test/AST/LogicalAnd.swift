@@ -2,11 +2,11 @@
 class LogicalAnd: AbstractPolyadicExpression, ExpressionProtocol {
     /// Pass this node to the appropriate method on the given visitor.
     func accept<T: VisitorProtocol>(visitor: T) -> T.VisitorResultType {
-        return visitor.visitLogicalAnd(self) as T.VisitorResultType
+        return visitor.visit(self) as T.VisitorResultType
     }
 
     /// Pass this node to the appropriate method on the given visitor.
     func accept<T: ExpressionVisitorProtocol>(visitor: T) -> T.ExpressionVisitorResultType {
-        return visitor.visitLogicalAnd(self)
+        return visitor.visit(self)
     }
 }

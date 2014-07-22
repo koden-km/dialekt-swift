@@ -23,7 +23,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a LogicalAnd node.
-    func visitLogicalAnd(node: LogicalAnd) -> ExpressionResult {
+    func visit(node: LogicalAnd) -> ExpressionResult {
         var matchedTags = [String]()
         var isMatch = true
 
@@ -56,7 +56,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a LogicalOr node.
-    func visitLogicalOr(node: LogicalOr) -> ExpressionResult {
+    func visit(node: LogicalOr) -> ExpressionResult {
         var matchedTags = [String]()
         var isMatch = false
 
@@ -89,7 +89,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a LogicalNot node.
-    func visitLogicalNot(node: LogicalNot) -> ExpressionResult {
+    func visit(node: LogicalNot) -> ExpressionResult {
         let childResult = node.child().accept(self)
 
         return _createExpressionResult(
@@ -101,7 +101,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a Tag node.
-    func visitTag(node: Tag) -> ExpressionResult {
+    func visit(node: Tag) -> ExpressionResult {
         if _caseSensitive {
             return _matchTags(node) {
                 return node.name() == $0
@@ -114,7 +114,7 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
     }
 
     /// Visit a pattern node.
-    func visitPattern(node: Pattern) -> ExpressionResult {
+    func visit(node: Pattern) -> ExpressionResult {
         var pattern = "/^"
 
         for n in node.children() {
@@ -129,24 +129,22 @@ class Evaluator: EvaluatorProtocol, ExpressionVisitorProtocol, PatternChildVisit
         }
 
         return _matchTags(node) {
-            return $0.substringWithRange(
-                $0.rangeOfString(pattern, options: options)
-            ).isEmpty == false
+            $0.rangeOfString(pattern, options: options) != nil
         }
     }
 
     /// Visit a PatternLiteral node.
-    func visitPatternLiteral(node: PatternLiteral) -> String {
+    func visit(node: PatternLiteral) -> String {
         return NSRegularExpression.escapedPatternForString(node.string())
     }
     
     /// Visit a PatternWildcard node.
-    func visitPatternWildcard(node: PatternWildcard) -> String {
+    func visit(node: PatternWildcard) -> String {
         return ".*"
     }
 
     /// Visit a EmptyExpression node.
-    func visitEmptyExpression(node: EmptyExpression) -> ExpressionResult {
+    func visit(node: EmptyExpression) -> ExpressionResult {
         return _createExpressionResult(
             node,
             isMatch: _emptyIsWildcard,

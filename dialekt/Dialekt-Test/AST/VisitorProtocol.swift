@@ -3,26 +3,26 @@ protocol VisitorProtocol: ExpressionVisitorProtocol, PatternChildVisitorProtocol
     typealias VisitorResultType
 
     /// Visit a LogicalAnd node.
-    func visitLogicalAnd(node: LogicalAnd) -> VisitorResultType
+    func visit(node: LogicalAnd) -> VisitorResultType
 
     /// Visit a LogicalOr node.
-    func visitLogicalOr(node: LogicalOr) -> VisitorResultType
+    func visit(node: LogicalOr) -> VisitorResultType
 
     /// Visit a LogicalNot node.
-    func visitLogicalNot(node: LogicalNot) -> VisitorResultType
+    func visit(node: LogicalNot) -> VisitorResultType
 
     /// Visit a Tag node.
-    func visitTag(node: Tag) -> VisitorResultType
+    func visit(node: Tag) -> VisitorResultType
 
     /// Visit a pattern node.
-    func visitPattern(node: Pattern) -> VisitorResultType
+    func visit(node: Pattern) -> VisitorResultType
 
     /// Visit a EmptyExpression node.
-    func visitEmptyExpression(node: EmptyExpression) -> VisitorResultType
+    func visit(node: EmptyExpression) -> VisitorResultType
 
     /// Visit a PatternLiteral node.
-    func visitPatternLiteral(node: PatternLiteral) -> VisitorResultType
+    func visit(node: PatternLiteral) -> VisitorResultType
 
     /// Visit a PatternWildcard node.
-    func visitPatternWildcard(node: PatternWildcard) -> VisitorResultType
+    func visit(node: PatternWildcard) -> VisitorResultType
 }

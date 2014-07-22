@@ -3,8 +3,8 @@ protocol PatternChildVisitorProtocol {
     typealias PatternChildVisitorResultType
 
     /// Visit a PatternLiteral node.
-    func visitPatternLiteral(node: PatternLiteral) -> PatternChildVisitorResultType
+    func visit(node: PatternLiteral) -> PatternChildVisitorResultType
 
     /// Visit a PatternWildcard node.
-    func visitPatternWildcard(node: PatternWildcard) -> PatternChildVisitorResultType
+    func visit(node: PatternWildcard) -> PatternChildVisitorResultType
 }
