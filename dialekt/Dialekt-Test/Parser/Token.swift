@@ -45,12 +45,12 @@ public class Token: Equatable {
         self.columnNumber = columnNumber
     }
 
-    public let tokenType: TokenType
-    public let value: String
-    public let startOffset: Int
-    public let endOffset: Int
-    public let lineNumber: Int
-    public let columnNumber: Int
+    public var tokenType: TokenType
+    public var value: String
+    public var startOffset: Int
+    public var endOffset: Int
+    public var lineNumber: Int
+    public var columnNumber: Int
 }
 
 @infix public func ==(lhs: Token, rhs: Token) -> Bool {
