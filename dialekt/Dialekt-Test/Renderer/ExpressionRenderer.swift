@@ -50,7 +50,10 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a PatternLiteral node.
     public func visit(node: PatternLiteral) -> String {
-        // TODO: fail if node.string() contains wildcard
+        // TODO: Handle this better?
+        if node.string().rangeOfString(_wildcardString, options: NSStringCompareOptions.LiteralSearch) {
+            fatalError("The pattern literal contains the wildcard string.")
+        }
         return escapeString(node.string())
     }
 
@@ -73,9 +76,19 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
             return "\"" + string + "\""
         }
 
-        // TODO: replace other characters
+        var escapedString = ""
+        let characters = ["\\", "(", ")", "\""]
+        for c in string {
+            if !contains(string, c) {
+                escapedString += c
+            }
+        }
 
-        return string
+        if string.rangeOfString(".*[\\s\\\\].*", options: NSStringCompareOptions.RegularExpressionSearch) {
+            return "\"" + escapedString + "\""
+        }
+
+        return escapedString
     }
 
     private let _wildcardString: String
