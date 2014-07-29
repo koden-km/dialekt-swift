@@ -60,7 +60,10 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
         return "EMPTY"
     }
 
-    private func renderChildren<T: NodeProtocol>(children: [T]) -> String {
+// TODO: how to make this work?
+//    private func renderChildren<T: NodeProtocol>(children: [T]) -> String {
+//    private func renderChildren<T: Sequence>(children: T) -> String {
+    private func renderChildren(children: [NodeProtocol]) -> String {
         var output = ""
 
         for n in children {
@@ -73,21 +76,26 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
     }
 
     private func indent(string: String) -> String {
-        return " " + string.stringByReplacingOccurrencesOfString(_endOfLine,
+        return " " + string.stringByReplacingOccurrencesOfString(
+            _endOfLine,
             withString: " " + _endOfLine,
             options: NSStringCompareOptions.LiteralSearch
         )
     }
 
     private func encodeString(string: String) -> String {
-//        return json_encode(string)
-//        return JSONObject.quote(string)
-        return "TODO"
-// TODO: is this correct?
-//        return NSJSONSerialization.dataWithJSONObject(string,
-//            options: NSJSONWritingOptions(0),
-//            error: nil
-//        ).description
+        let jsonObj: AnyObject = string
+        var e: NSError?
+        let jsonData = NSJSONSerialization.dataWithJSONObject(
+            jsonObj,
+            options: NSJSONWritingOptions(0),
+            error: &e
+        )
+        if e {
+            return ""
+        } else {
+            return NSString(data: jsonData, encoding: NSUTF8StringEncoding)
+        }
     }
 
     private let _endOfLine: String

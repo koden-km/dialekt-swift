@@ -1,5 +1,6 @@
 import Foundation
 
+/// Renders an AST expression to an expression string.
 public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     public init(wildcardString: String) {
         _wildcardString = wildcardString
@@ -11,7 +12,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 
     /// Render an expression to a string.
     public func render(expression: ExpressionProtocol) -> String {
-            return expression.accept(self)
+        return expression.accept(self)
     }
 
     /// Visit a LogicalAnd node.
