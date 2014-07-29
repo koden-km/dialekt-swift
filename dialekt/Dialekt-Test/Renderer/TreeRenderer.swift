@@ -1,4 +1,5 @@
-/*
+import Foundation
+
 /// Render an AST expression to a string representing the tree structure.
 public class TreeRenderer: RendererProtocol, VisitorProtocol {
     public init(endOfLine: String) {
@@ -66,25 +67,28 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
             output += indent("- " + n.accept(self)) + _endOfLine
         }
 
-// TODO
-//        return output.substring(
-//            0,
-//            output.length() - this.endOfLine.length()
-//        )
-
-        return "TODO"
+        return output.substringToIndex(
+            advance(output.endIndex, -countElements(_endOfLine))
+        )
     }
 
     private func indent(string: String) -> String {
-//        return "  " + string.replace(this.endOfLine, "  " + this.endOfLine)
-        return "TODO"
+        return " " + string.stringByReplacingOccurrencesOfString(_endOfLine,
+            withString: " " + _endOfLine,
+            options: NSStringCompareOptions.LiteralSearch
+        )
     }
 
     private func encodeString(string: String) -> String {
+//        return json_encode(string)
 //        return JSONObject.quote(string)
         return "TODO"
+// TODO: is this correct?
+//        return NSJSONSerialization.dataWithJSONObject(string,
+//            options: NSJSONWritingOptions(0),
+//            error: nil
+//        ).description
     }
 
     private let _endOfLine: String
 }
-*/
