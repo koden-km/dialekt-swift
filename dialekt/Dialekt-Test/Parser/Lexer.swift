@@ -112,7 +112,6 @@ public class Lexer: LexerProtocol {
     }
 
     private func finalizeSimpleString() {
-        // TODO: write this method
         let bufferLowercase = _buffer.lowercaseString
         if bufferLowercase == "and" {
             _nextToken!.tokenType = TokenType.LogicalAnd

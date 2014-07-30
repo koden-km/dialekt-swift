@@ -24,9 +24,8 @@ public class ExpressionParser: AbstractParser {
             return parseLogicalNot()
         } else if TokenType.OpenBracket == _currentToken?.tokenType {
             return parseNestedExpression()
-// TODO
-//        } else if false == strpos(_currentToken.value, _wildcardString()) {
-//            return _parseTag()
+        } else if _currentToken?.value.rangeOfString(wildcardString, options: NSStringCompareOptions.LiteralSearch) == nil {
+            return parseTag()
         } else {
             return parsePattern()
         }
@@ -49,15 +48,18 @@ public class ExpressionParser: AbstractParser {
     private func parsePattern() -> ExpressionProtocol {
         startExpression()
 
-// TODO
-let parts = [String]()
-//NSRegularExpression.escapedPatternForString(wildcardString)
-//        $parts = preg_split(
-//        '/(' . preg_quote($this->wildcardString(), '/') . ')/',
-//        $this->currentToken->value,
-//        -1,
-//        PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-//        )
+        let pattern = "/(" + NSRegularExpression.escapedPatternForString(wildcardString) + ")/"
+        let regex = NSRegularExpression.regularExpressionWithPattern(
+            pattern,
+            options: NSRegularExpressionOptions(0),
+            error: nil
+        )
+
+        let parts = regex.matchesInString(
+            _currentToken!.value,
+            options: NSMatchingOptions.Anchored,
+            range: NSRangeFromString(_currentToken!.value)
+        ) as [String]
 
         let expression = Pattern()
 
@@ -107,7 +109,9 @@ let parts = [String]()
     }
 
     private func parseCompoundExpression(expresison: ExpressionProtocol, minimumPrecedence: Int = 0) -> ExpressionProtocol {
-        // TODO
+
+        // TODO: write this method.
+
         return expression
     }
 
