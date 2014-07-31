@@ -139,19 +139,6 @@ public class ExpressionParser: AbstractParser {
                 rightExpression = parseCompoundExpression(rightExpression, minimumPrecedence: precedence + 1)
             }
 
-// TODO: use meta types here?
-//            // Combine the parsed expression with the existing expression ...
-//            let operatorClass = operatorClasses(operator!)
-//
-//            // Collapse the expression into an existing expression of the same type ...
-//            if allowCollapse && leftExpression is operatorClass {
-//                leftExpresison.add(rightExpression)
-//            } else {
-//                leftExpresison = operatorClass(leftExpression, rightExpression)
-//                allowCollapse = true
-//            }
-
-// NOTE: alternate way to do it...
             // Combine the parsed expression with the existing expression ...
             // Collapse the expression into an existing expression of the same type ...
             if allowCollapse && operator == TokenType.LogicalAnd && leftExpresison is LogicalAnd {
@@ -188,16 +175,6 @@ public class ExpressionParser: AbstractParser {
             return (TokenType.LogicalAnd, false)
         }
     }
-
-// TODO: for the meta types implementation of parseCompoundExpression()
-//    private func operatorClasses(operator: TokenType) -> Type {
-//        if operator == TokenType.LogicalAnd {
-//            return LogicalAnd.self
-//        } else if operator == TokenType.LogicalOr {
-//            return LogicalOr.self
-//        }
-//        fatalError("Operator class not supported.")
-//    }
 
     private func operatorPrecedence(operator: TokenType?) -> Int {
         if operator == TokenType.LogicalAnd {

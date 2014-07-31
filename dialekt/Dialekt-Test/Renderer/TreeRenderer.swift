@@ -22,12 +22,20 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a LogicalAnd node.
     public func visit(node: LogicalAnd) -> String {
-        return "AND" + _endOfLine + renderChildren(node.children())
+        return "AND" + _endOfLine + renderChildren(
+            node.children().map {
+                $0.accept(self)
+            }
+        )
     }
 
     /// Visit a LogicalOr node.
     public func visit(node: LogicalOr) -> String {
-        return "OR" + _endOfLine + renderChildren(node.children())
+        return "OR" + _endOfLine + renderChildren(
+            node.children().map {
+                $0.accept(self)
+            }
+        )
     }
 
     /// Visit a LogicalNot node.
@@ -42,7 +50,11 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a Pattern node.
     public func visit(node: Pattern) -> String {
-        return "PATTERN" + _endOfLine + renderChildren(node.children())
+        return "PATTERN" + _endOfLine + renderChildren(
+            node.children().map {
+                $0.accept(self)
+            }
+        )
     }
 
     /// Visit a PatternLiteral node.
@@ -60,14 +72,11 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
         return "EMPTY"
     }
 
-// TODO: how to make this work?
-//    private func renderChildren<T: NodeProtocol>(children: [T]) -> String {
-//    private func renderChildren<T: Sequence>(children: T) -> String {
-    private func renderChildren(children: [NodeProtocol]) -> String {
+    private func renderChildren(children: [String]) -> String {
         var output = ""
 
-        for n in children {
-            output += indent("- " + n.accept(self)) + _endOfLine
+        for str in children {
+            output += indent("- " + str) + _endOfLine
         }
 
         return output.substringToIndex(
