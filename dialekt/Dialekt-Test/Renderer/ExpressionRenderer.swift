@@ -52,7 +52,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     /// Visit a PatternLiteral node.
     public func visit(node: PatternLiteral) -> String {
         // TODO: throw "The pattern literal \"" + node.string() + "\" contains the wildcard string \"" + _wildcardString + "\"."
-        if node.string().rangeOfString(_wildcardString, options: NSStringCompareOptions.LiteralSearch) {
+        if node.string().rangeOfString(_wildcardString, options: NSStringCompareOptions.LiteralSearch) == nil {
             fatalError("The pattern literal contains the wildcard string.")
         }
         return escapeString(node.string())
@@ -85,7 +85,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
             }
         }
 
-        if string.rangeOfString(".*[\\s\\\\].*", options: NSStringCompareOptions.RegularExpressionSearch) {
+        if string.rangeOfString(".*[\\s\\\\].*", options: NSStringCompareOptions.RegularExpressionSearch) != nil {
             return "\"" + escapedString + "\""
         }
 

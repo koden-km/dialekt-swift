@@ -114,9 +114,9 @@ public class ExpressionParser: AbstractParser {
 
         while true {
             // Parse the operator and determine whether or not it's explicit ...
-            let (operator, isExplicit) = parseOperator()
+            let (oper, isExplicit) = parseOperator()
 
-            let precedence = operatorPrecedence(operator)
+            let precedence = operatorPrecedence(oper)
 
             // Abort if the operator's precedence is less than what we're looking for ...
             if precedence < minimumPrecedence {
@@ -141,9 +141,9 @@ public class ExpressionParser: AbstractParser {
 
             // Combine the parsed expression with the existing expression ...
             // Collapse the expression into an existing expression of the same type ...
-            if allowCollapse && operator == TokenType.LogicalAnd && leftExpresison is LogicalAnd {
+            if allowCollapse && oper == TokenType.LogicalAnd && leftExpresison is LogicalAnd {
                 (leftExpresison as LogicalAnd).add(rightExpression)
-            } else if operator == TokenType.LogicalOr {
+            } else if oper == TokenType.LogicalOr {
                 leftExpresison = LogicalOr(leftExpresison, rightExpression)
                 allowCollapse = true
             } else {
@@ -154,9 +154,9 @@ public class ExpressionParser: AbstractParser {
         return leftExpresison
     }
 
-    private func parseOperator() -> (operator: TokenType?, isExplicit: Bool) {
+    private func parseOperator() -> (oper: TokenType?, isExplicit: Bool) {
         // End of input ...
-        if !_currentToken {
+        if _currentToken == nil {
             return (nil, false)
         // Closing bracket ...
         } else if TokenType.CloseBracket == _currentToken?.tokenType {
@@ -176,10 +176,10 @@ public class ExpressionParser: AbstractParser {
         }
     }
 
-    private func operatorPrecedence(operator: TokenType?) -> Int {
-        if operator == TokenType.LogicalAnd {
+    private func operatorPrecedence(oper: TokenType?) -> Int {
+        if oper == TokenType.LogicalAnd {
             return 1
-        } else if operator == TokenType.LogicalOr {
+        } else if oper == TokenType.LogicalOr {
             return 0
         } else {
             return -1

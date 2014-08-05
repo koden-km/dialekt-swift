@@ -38,7 +38,7 @@ public class AbstractParser {
 
         let expression = parseExpression()
 
-        if (_currentToken) {
+        if _currentToken != nil {
             // TODO: throw "Unexpected " + _currentToken!.tokenType.description + ", expected end of input."
             fatalError("Unexpected token, expected end of input.")
         }
@@ -53,7 +53,7 @@ public class AbstractParser {
     }
 
     internal func expectToken(types: TokenType...) {
-        if !_currentToken {
+        if _currentToken == nil {
             // TODO: throw "Unexpected end of input, expected " + formatExpectedTokenNames(types) + "."
             fatalError("Unexpected end of input, expected more tokens.")
         } else if !contains(types, _currentToken!.tokenType) {

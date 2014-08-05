@@ -38,10 +38,10 @@ public class ListParser: AbstractParser, ParserProtocol {
 
         startExpression()
 
-        while _currentToken {
+        while _currentToken != nil {
             expectToken(TokenType.Text)
 
-            if _currentToken!.value.rangeOfString(wildcardString) {
+            if _currentToken!.value.rangeOfString(wildcardString) != nil {
                 // TODO: throw "Unexpected wildcard string \"" + wildcardString + "\", in tag \"" + _currentToken!.value + "\"."
 				fatalError("Unexpected wildcard string in tag.")
             }

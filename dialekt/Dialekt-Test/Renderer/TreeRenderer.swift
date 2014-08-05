@@ -100,7 +100,7 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
             options: NSJSONWritingOptions(0),
             error: &e
         )
-        if e {
+        if e == nil {
             return ""
         } else {
             return NSString(data: jsonData, encoding: NSUTF8StringEncoding)

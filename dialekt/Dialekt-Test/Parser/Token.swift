@@ -1,4 +1,4 @@
-public enum TokenType {
+public enum TokenType: Int, Printable {
     case LogicalAnd
     case LogicalOr
     case LogicalNot
@@ -24,7 +24,7 @@ public enum TokenType {
     }
 }
 
-public class Token: Equatable {
+public class Token {
     public class var WildcardString: String {
         return "*"
     }
@@ -51,13 +51,4 @@ public class Token: Equatable {
     public var endOffset: Int
     public var lineNumber: Int
     public var columnNumber: Int
-}
-
-@infix public func ==(lhs: Token, rhs: Token) -> Bool {
-    return lhs.tokenType == rhs.tokenType
-        && lhs.value == rhs.value
-        && lhs.startOffset == rhs.startOffset
-        && lhs.endOffset == rhs.endOffset
-        && lhs.lineNumber == rhs.lineNumber
-        && lhs.columnNumber == rhs.columnNumber
 }
