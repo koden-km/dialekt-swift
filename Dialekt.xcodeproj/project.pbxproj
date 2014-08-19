@@ -55,6 +55,7 @@
 		0ADAD0ED198F8D2F009D7537 /* TreeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADAD0CF198F8D2F009D7537 /* TreeRenderer.swift */; };
 		0ADAD0F4198F8D2F009D7537 /* AbstractExpressionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADAD0EF198F8D2F009D7537 /* AbstractExpressionTest.swift */; };
 		0ADAD0F5198F8D2F009D7537 /* EmptyExpressionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADAD0F0198F8D2F009D7537 /* EmptyExpressionTest.swift */; };
+		0AF7E33919A3538600E2CFAD /* ExpressionParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7E33819A3538600E2CFAD /* ExpressionParserTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +148,7 @@
 		0ADAD0CF198F8D2F009D7537 /* TreeRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeRenderer.swift; sourceTree = "<group>"; };
 		0ADAD0EF198F8D2F009D7537 /* AbstractExpressionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractExpressionTest.swift; sourceTree = "<group>"; };
 		0ADAD0F0198F8D2F009D7537 /* EmptyExpressionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyExpressionTest.swift; sourceTree = "<group>"; };
+		0AF7E33819A3538600E2CFAD /* ExpressionParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionParserTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +328,7 @@
 		0ADAD0F2198F8D2F009D7537 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				0AF7E33819A3538600E2CFAD /* ExpressionParserTest.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				0ADAD0F4198F8D2F009D7537 /* AbstractExpressionTest.swift in Sources */,
 				0A7F9C47199250750024D353 /* PatternWildcardTest.swift in Sources */,
 				0A88D9F819920945005939D4 /* PatternLiteralTest.swift in Sources */,
+				0AF7E33919A3538600E2CFAD /* ExpressionParserTest.swift in Sources */,
 				0A88D9FA19920B00005939D4 /* PatternTest.swift in Sources */,
 				0A88D9F619920537005939D4 /* LogicalNotTest.swift in Sources */,
 				0ADAD0F5198F8D2F009D7537 /* EmptyExpressionTest.swift in Sources */,

@@ -34,14 +34,14 @@ class EvaluatorTest: XCTestCase {
     func testEvaluateTagCaseSensitive() {
         self.evaluator = Evaluator(caseSensitive: true)
         let expression = Tag("foo")
-        
+
         XCTAssertTrue(
             self.evaluator.evaluate(
                 expression,
                 tags: ["foo"]
             ).isMatch()
         )
-        
+
         XCTAssertFalse(
             self.evaluator.evaluate(
                 expression,
@@ -53,7 +53,7 @@ class EvaluatorTest: XCTestCase {
     func testPerformanceEvaluateTagCaseSensitive() {
         let expression = Tag("foo")
         let tagList = ["foo"]
-        
+
         self.evaluator = Evaluator(caseSensitive: true)
         self.measureBlock() {
             let result = self.evaluator.evaluate(
@@ -74,14 +74,14 @@ class EvaluatorTest: XCTestCase {
             self.evaluator.evaluate(
                 expression,
                 tags: ["foobar"]
-                ).isMatch()
+            ).isMatch()
         )
-        
+
         XCTAssertFalse(
             self.evaluator.evaluate(
                 expression,
                 tags: ["FOOBAR"]
-                ).isMatch()
+            ).isMatch()
         )
     }
 
@@ -90,7 +90,7 @@ class EvaluatorTest: XCTestCase {
             PatternLiteral("foo"),
             PatternWildcard()
         )
-        
+
         let tagList = ["foobar"]
 
         self.evaluator = Evaluator(caseSensitive: true)
@@ -101,10 +101,10 @@ class EvaluatorTest: XCTestCase {
             )
         }
     }
-    
+
     func testEvaluateEmptyExpressionEmptyAsWildcard() {
         self.evaluator = Evaluator(caseSensitive: false, emptyIsWildcard: true)
-        
+
         XCTAssertTrue(
             self.evaluator.evaluate(
                 EmptyExpression(),
@@ -116,7 +116,7 @@ class EvaluatorTest: XCTestCase {
     func testPerformanceEvaluateEmptyExpressionEmptyAsWildcard() {
         let expression = EmptyExpression()
         let tagList = ["foo"]
-        
+
         self.evaluator = Evaluator(caseSensitive: false, emptyIsWildcard: true)
         self.measureBlock() {
             let result = self.evaluator.evaluate(
@@ -138,14 +138,14 @@ class EvaluatorTest: XCTestCase {
             innerExpression2,
             innerExpression3
         )
-        
+
         let result = self.evaluator.evaluate(
             expression,
             tags: ["foo", "bar", "spam"]
         )
-        
+
         XCTAssertTrue(result.isMatch())
-        
+
         var expressionResult: ExpressionResult
 
         expressionResult = result.resultOf(expression)
@@ -159,7 +159,7 @@ class EvaluatorTest: XCTestCase {
         XCTAssertTrue(expressionResult.isMatch())
         XCTAssertTrue(["foo"] == expressionResult.matchedTags())
         XCTAssertTrue(["bar", "spam"] == expressionResult.unmatchedTags())
-        
+
         expressionResult = result.resultOf(innerExpression2)
         XCTAssertNotNil(expressionResult)
         XCTAssertTrue(expressionResult.isMatch())
@@ -182,7 +182,7 @@ class EvaluatorTest: XCTestCase {
 
         let tagList = ["foo", "bar", "spam"]
 
-        self.evaluator = Evaluator(caseSensitive: false, emptyIsWildcard: true)
+        self.evaluator = Evaluator()
         self.measureBlock() {
             let result = self.evaluator.evaluate(
                 expression,
@@ -191,7 +191,223 @@ class EvaluatorTest: XCTestCase {
         }
     }
 
-    // TODO: finish porting tests.
+    func testEvaluateLogicalOr() {
+        self.evaluator = Evaluator()
+
+        let innerExpression1 = Tag("foo")
+        let innerExpression2 = Tag("bar")
+        let innerExpression3 = Tag("doom")
+
+        let expression = LogicalOr(
+            innerExpression1,
+            innerExpression2,
+            innerExpression3
+        )
+
+        let result = self.evaluator.evaluate(
+            expression,
+            tags: ["foo", "bar", "spam"]
+        )
+
+        XCTAssertTrue(result.isMatch())
+
+        var expressionResult: ExpressionResult
+
+        expressionResult = result.resultOf(expression)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertTrue(expressionResult.isMatch())
+        XCTAssertTrue(["foo", "bar"] == expressionResult.matchedTags())
+        XCTAssertTrue(["spam"] == expressionResult.unmatchedTags())
+
+        expressionResult = result.resultOf(innerExpression1)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertTrue(expressionResult.isMatch())
+        XCTAssertTrue(["foo"] == expressionResult.matchedTags())
+        XCTAssertTrue(["bar", "spam"] == expressionResult.unmatchedTags())
+
+        expressionResult = result.resultOf(innerExpression2)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertTrue(expressionResult.isMatch())
+        XCTAssertTrue(["bar"] == expressionResult.matchedTags())
+        XCTAssertTrue(["foo", "spam"] == expressionResult.unmatchedTags())
+
+        expressionResult = result.resultOf(innerExpression3)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertFalse(expressionResult.isMatch())
+        XCTAssertTrue([String]() == expressionResult.matchedTags())
+        XCTAssertTrue(["foo", "bar", "spam"] == expressionResult.unmatchedTags())
+    }
+
+    func testPerformanceEvaluateLogicalOr() {
+        let expression = LogicalOr(
+            Tag("foo"),
+            Tag("bar"),
+            Tag("spam")
+        )
+
+        let tagList = ["foo", "bar", "spam"]
+
+        self.evaluator = Evaluator()
+        self.measureBlock() {
+            let result = self.evaluator.evaluate(
+                expression,
+                tags: tagList
+            )
+        }
+    }
+
+    func testEvaluateLogicalNot() {
+        self.evaluator = Evaluator()
+
+        let innerExpression = Tag("foo")
+        let expression = LogicalNot(innerExpression)
+
+        let result = self.evaluator.evaluate(
+            expression,
+            tags: ["foo", "bar"]
+        )
+
+        XCTAssertFalse(result.isMatch())
+
+        var expressionResult: ExpressionResult
+
+        expressionResult = result.resultOf(expression)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertFalse(expressionResult.isMatch())
+        XCTAssertTrue(["bar"] == expressionResult.matchedTags())
+        XCTAssertTrue(["foo"] == expressionResult.unmatchedTags())
+
+        expressionResult = result.resultOf(innerExpression)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertTrue(expressionResult.isMatch())
+        XCTAssertTrue(["foo"] == expressionResult.matchedTags())
+        XCTAssertTrue(["bar"] == expressionResult.unmatchedTags())
+    }
+
+    func testPerformanceEvaluateLogicalNot() {
+        let expression = LogicalNot(Tag("foo"))
+
+        let tagList = ["foo", "bar"]
+
+        self.evaluator = Evaluator()
+        self.measureBlock() {
+            let result = self.evaluator.evaluate(
+                expression,
+                tags: tagList
+            )
+        }
+    }
+
+    func testEvaluateTag() {
+        self.evaluator = Evaluator()
+
+        let expression = Tag("foo")
+
+        let result = self.evaluator.evaluate(
+            expression,
+            tags: ["foo", "bar"]
+        )
+
+        XCTAssertTrue(result.isMatch())
+
+        var expressionResult: ExpressionResult
+
+        expressionResult = result.resultOf(expression)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertTrue(expressionResult.isMatch())
+        XCTAssertTrue(["foo"] == expressionResult.matchedTags())
+        XCTAssertTrue(["bar"] == expressionResult.unmatchedTags())
+    }
+
+    func testPerformanceEvaluateTag() {
+        let expression = Tag("foo")
+
+        let tagList = ["foo", "bar"]
+
+        self.evaluator = Evaluator()
+        self.measureBlock() {
+            let result = self.evaluator.evaluate(
+                expression,
+                tags: tagList
+            )
+        }
+    }
+
+    func testEvaluatePattern() {
+        self.evaluator = Evaluator()
+
+        let expression = Dialekt.Pattern(
+            PatternLiteral("foo"),
+            PatternWildcard()
+        )
+
+        let result = self.evaluator.evaluate(
+            expression,
+            tags: ["foo1", "foo2", "bar"]
+        )
+
+        XCTAssertTrue(result.isMatch())
+
+        var expressionResult: ExpressionResult
+
+        expressionResult = result.resultOf(expression)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertTrue(expressionResult.isMatch())
+        XCTAssertTrue(["foo1", "foo2"] == expressionResult.matchedTags())
+        XCTAssertTrue(["bar"] == expressionResult.unmatchedTags())
+    }
+
+    func testPerformanceEvaluatePattern() {
+        let expression = Dialekt.Pattern(
+            PatternLiteral("foo"),
+            PatternWildcard()
+        )
+
+        let tagList = ["foo1", "foo2", "bar"]
+
+        self.evaluator = Evaluator()
+        self.measureBlock() {
+            let result = self.evaluator.evaluate(
+                expression,
+                tags: tagList
+            )
+        }
+    }
+
+    func testEvaluateEmptyExpression() {
+        self.evaluator = Evaluator()
+
+        let expression = EmptyExpression()
+
+        let result = self.evaluator.evaluate(
+            expression,
+            tags: ["foo", "bar"]
+        )
+
+        XCTAssertFalse(result.isMatch())
+
+        var expressionResult: ExpressionResult
+
+        expressionResult = result.resultOf(expression)
+        XCTAssertNotNil(expressionResult)
+        XCTAssertFalse(expressionResult.isMatch())
+        XCTAssertTrue([String]() == expressionResult.matchedTags())
+        XCTAssertTrue(["foo", "bar"] == expressionResult.unmatchedTags())
+    }
+
+    func testPerformanceEvaluateEmptyExpression() {
+        let expression = EmptyExpression()
+
+        let tagList = ["foo", "bar"]
+
+        self.evaluator = Evaluator()
+        self.measureBlock() {
+            let result = self.evaluator.evaluate(
+                expression,
+                tags: tagList
+            )
+        }
+    }
 
     func evaluateTestVectors() -> [EvaluateTestVector] {
         return [
