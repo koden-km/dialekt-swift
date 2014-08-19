@@ -19,15 +19,14 @@ class EvaluatorTest: XCTestCase {
     }
 
     func testPerformanceEvaluate() {
-        let expression = Tag("foo")
-        let tagList = ["foo"]
-
         self.evaluator = Evaluator()
         self.measureBlock() {
-            let result = self.evaluator.evaluate(
-                expression,
-                tags: tagList
-            )
+            for testVector in self.evaluateTestVectors() {
+                let result = self.evaluator.evaluate(
+                    testVector.expression,
+                    tags: testVector.tags
+                )
+            }
         }
     }
 

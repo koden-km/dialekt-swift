@@ -1,36 +1,60 @@
-//
-//  ExpressionParserTest.swift
-//  Dialekt
-//
-//  Created by Kevin Millar on 19/08/2014.
-//  Copyright (c) 2014 Kevin Millar. All rights reserved.
-//
-
-import Cocoa
 import XCTest
+import Dialekt
 
 class ExpressionParserTest: XCTestCase {
 
+    var renderer: ExpressionRenderer!
+    var parser: ExpressionParser!
+
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+
+        self.renderer = ExpressionRenderer()
+        self.parser = ExpressionParser()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
+    func testParse() {
+        for testVector in self.parseTestVectors() {
+            let result = self.parser.parse(testVector.expression)
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
+            XCTAssertEqual(
+                self.renderer.render(testVector.expected),
+                self.renderer.render(result),
+                testVector.name
+            )
         }
     }
 
+    func testPerformanceParse() {
+        self.measureBlock() {
+            for testVector in self.parseTestVectors() {
+                let result = self.parser.parse(testVector.expression)
+            }
+        }
+    }
+
+    // TODO: port more tests
+
+// TODO: port more parse test vectors
+    func parseTestVectors() -> [ParserTestVector] {
+        return [
+            ParserTestVector(
+                name: "Empty expression",
+                expression: "",
+                expected: EmptyExpression()
+            ),
+        ]
+    }
+
+    class ParserTestVector {
+        var name: String
+        var expression: String
+        var expected: ExpressionProtocol
+
+        init(name: String, expression: String, expected: ExpressionProtocol) {
+            self.name = name
+            self.expression = expression
+            self.expected = expected
+        }
+    }
 }
