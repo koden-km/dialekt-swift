@@ -90,7 +90,7 @@ public class Lexer: LexerProtocol {
             startToken(TokenType.CloseBracket)
             endToken(currentChar)
         } else {
-            _buffer += currentChar
+            _buffer.append(currentChar)
         }
     }
 
@@ -102,13 +102,13 @@ public class Lexer: LexerProtocol {
             _state = State.Begin
             _buffer = ""
         } else {
-            _buffer += currentChar
+            _buffer.append(currentChar)
         }
     }
 
     private func handleQuotedStringEscapeState(currentChar: Character) {
         _state = .QuotedString
-        _buffer += currentChar
+        _buffer.append(currentChar)
     }
 
     private func finalizeSimpleString() {

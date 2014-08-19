@@ -103,7 +103,7 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
         if e == nil {
             return ""
         } else {
-            return NSString(data: jsonData, encoding: NSUTF8StringEncoding)
+            return NSString(data: jsonData!, encoding: NSUTF8StringEncoding)
         }
     }
 

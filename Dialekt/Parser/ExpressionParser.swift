@@ -55,15 +55,15 @@ public class ExpressionParser: AbstractParser {
             error: nil
         )
 
-        let parts = regex.matchesInString(
+        let parts = regex?.matchesInString(
             _currentToken!.value,
             options: NSMatchingOptions.Anchored,
             range: NSRangeFromString(_currentToken!.value)
-        ) as [String]
+        )
 
         let expression = Pattern()
 
-        for value in parts {
+        for value in parts as [String] {
             if wildcardString == value {
                 expression.add(PatternWildcard())
             } else {

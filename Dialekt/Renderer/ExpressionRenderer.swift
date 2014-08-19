@@ -78,10 +78,10 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
         }
 
         var escapedString = ""
-        let characters = ["\\", "(", ")", "\""]
+        let characters: [Character] = ["\\", "(", ")", "\""]
         for c in string {
-            if !contains(string, c) {
-                escapedString += c
+            if contains(characters, c) {
+                escapedString += "\\" + c
             }
         }
 

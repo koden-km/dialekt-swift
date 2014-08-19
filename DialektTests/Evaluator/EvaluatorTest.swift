@@ -17,7 +17,7 @@ class EvaluatorTest: XCTestCase {
             XCTAssertEqual(testVector.expected, result.isMatch(), testVector.name)
         }
     }
-    
+
     func testPerformanceEvaluate() {
         let expression = Tag("foo")
         let tagList = ["foo"]
@@ -387,11 +387,18 @@ class EvaluatorTest: XCTestCase {
             ),
         ]
     }
-    
-    struct EvaluateTestVector {
-        internal let name: String
-        internal let expression: ExpressionProtocol
-        internal let tags: [String]
-        internal let expected: Bool
+
+    class EvaluateTestVector {
+        var name: String
+        var expression: ExpressionProtocol
+        var tags: [String]
+        var expected: Bool
+
+        init(name: String, expression: ExpressionProtocol, tags: [String], expected: Bool) {
+            self.name = name
+            self.expression = expression
+            self.tags = tags
+            self.expected = expected
+        }
     }
 }
