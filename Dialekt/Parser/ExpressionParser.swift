@@ -143,11 +143,9 @@ public class ExpressionParser: AbstractParser {
             // Collapse the expression into an existing expression of the same type ...
             if allowCollapse && oper == TokenType.LogicalAnd && leftExpressison is LogicalAnd {
                 (leftExpressison as LogicalAnd).add(rightExpression)
-            } else if oper == TokenType.LogicalOr {
+            } else {
                 leftExpressison = LogicalOr(leftExpressison, rightExpression)
                 allowCollapse = true
-            } else {
-                fatalError("Operator class not supported.")
             }
         }
 

@@ -599,7 +599,7 @@ class EvaluatorTest: XCTestCase {
                 ),
                 tags: ["spam"],
                 expected: false
-            ),
+            )
         ]
     }
 
