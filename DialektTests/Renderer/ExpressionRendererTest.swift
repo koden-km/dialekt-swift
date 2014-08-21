@@ -27,24 +27,22 @@ class ExpressionRendererTest: XCTestCase {
         }
     }
 
-// TODO: need a way to handle the lack of exceptions for this? use nil or a tuple?
-//    func testRenderFailureWithWildcardInPatternLiteral() {
-//        let string = self.renderer.render(
-//            Dialekt.Pattern(
-//                PatternLiteral("foo*")
-//            )
-//        )
-//
-//        XCTAssertNil(string, "The pattern literal \"foo*\" contains the wildcard string \"\(Token.WildcardString)\".")
-//    }
+    func testRenderFailureWithWildcardInPatternLiteral() {
+        let string = self.renderer.render(
+            Dialekt.Pattern(
+                PatternLiteral("foo*")
+            )
+        )
 
-// TODO: need a way to handle the lack of exceptions for this? use nil or a tuple?
-//    func testPerformanceRenderFailureWithWildcardInPatternLiteral() {
-//        let expression = Dialekt.Pattern(PatternLiteral("foo*"))
-//        self.measureBlock() {
-//            let string = self.renderer.render(expression)
-//        }
-//    }
+        XCTAssertNil(string, "The pattern literal \"foo*\" contains the wildcard string \"\(Token.WildcardString)\".")
+    }
+
+    func testPerformanceRenderFailureWithWildcardInPatternLiteral() {
+        let expression = Dialekt.Pattern(PatternLiteral("foo*"))
+        self.measureBlock() {
+            let result = self.renderer.render(expression)
+        }
+    }
 
     func renderTestVectors() -> [RenderTestVector] {
         return [

@@ -16,7 +16,7 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
     }
 
     /// Render an expression to a string.
-    public func render(expression: ExpressionProtocol) -> String {
+    public func render(expression: ExpressionProtocol) -> String! {
         return expression.accept(self)
     }
 

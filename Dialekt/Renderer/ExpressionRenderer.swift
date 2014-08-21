@@ -11,7 +11,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     }
 
     /// Render an expression to a string.
-    public func render(expression: ExpressionProtocol) -> String {
+    public func render(expression: ExpressionProtocol) -> String! {
         return expression.accept(self)
     }
 
@@ -37,19 +37,23 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a pattern node.
     public func visit(node: Pattern) -> String! {
-        let string = "".join(
-            node.children().map {
-                $0.accept(self)
+        var string = ""
+        for child in node.children() {
+            if let result = child.accept(self) {
+                string += result
+            } else {
+                // A nil result means an error occurred. eg. PatternLiteral contained the wildcard.
+                return nil
             }
-        )
+        }
         return escapeString(string)
     }
 
     /// Visit a PatternLiteral node.
     public func visit(node: PatternLiteral) -> String! {
         if node.string().rangeOfString(_wildcardString, options: NSStringCompareOptions.LiteralSearch) != nil {
-            // TODO: throw "The pattern literal \"" + node.string() + "\" contains the wildcard string \"" + _wildcardString + "\"."
-            //fatalError("The pattern literal contains the wildcard string.")
+            // throw exception "The pattern literal \"" + node.string() + "\" contains the wildcard string \"" + _wildcardString + "\"."
+            // fatalError("The pattern literal contains the wildcard string.")
             return nil
         }
         return node.string()
