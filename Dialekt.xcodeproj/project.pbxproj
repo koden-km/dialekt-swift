@@ -21,6 +21,7 @@
 		0A88D9F619920537005939D4 /* LogicalNotTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A88D9F519920537005939D4 /* LogicalNotTest.swift */; };
 		0A88D9F819920945005939D4 /* PatternLiteralTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A88D9F719920945005939D4 /* PatternLiteralTest.swift */; };
 		0A88D9FA19920B00005939D4 /* PatternTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A88D9F919920B00005939D4 /* PatternTest.swift */; };
+		0A978A4C19A6B6680030393C /* LexerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A978A4B19A6B6680030393C /* LexerTest.swift */; };
 		0ADAD07E198F8D2F009D7537 /* Dialekt.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ADAD07D198F8D2F009D7537 /* Dialekt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0ADAD084198F8D2F009D7537 /* Dialekt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADAD078198F8D2F009D7537 /* Dialekt.framework */; };
 		0ADAD0D0198F8D2F009D7537 /* AbstractExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADAD0AF198F8D2F009D7537 /* AbstractExpression.swift */; };
@@ -112,6 +113,7 @@
 		0A88D9F519920537005939D4 /* LogicalNotTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogicalNotTest.swift; sourceTree = "<group>"; };
 		0A88D9F719920945005939D4 /* PatternLiteralTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternLiteralTest.swift; sourceTree = "<group>"; };
 		0A88D9F919920B00005939D4 /* PatternTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternTest.swift; sourceTree = "<group>"; };
+		0A978A4B19A6B6680030393C /* LexerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexerTest.swift; sourceTree = "<group>"; };
 		0ADAD078198F8D2F009D7537 /* Dialekt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dialekt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ADAD07C198F8D2F009D7537 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ADAD07D198F8D2F009D7537 /* Dialekt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dialekt.h; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				0AF7E33819A3538600E2CFAD /* ExpressionParserTest.swift */,
+				0A978A4B19A6B6680030393C /* LexerTest.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				0A88D9F619920537005939D4 /* LogicalNotTest.swift in Sources */,
 				0ADAD0F5198F8D2F009D7537 /* EmptyExpressionTest.swift in Sources */,
 				0A88D9F219918958005939D4 /* LogicalAndTest.swift in Sources */,
+				0A978A4C19A6B6680030393C /* LexerTest.swift in Sources */,
 				0A7F9C49199251680024D353 /* TagTest.swift in Sources */,
 				0A1B7C6D1999F8AA00092E96 /* ExpressionResultTest.swift in Sources */,
 				0A88D9EC19918583005939D4 /* MockVisitorProtocol.swift in Sources */,

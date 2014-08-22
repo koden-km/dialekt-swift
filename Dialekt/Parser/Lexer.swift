@@ -1,7 +1,7 @@
 import Foundation
 
 public class Lexer: LexerProtocol {
-    init() {
+    public init() {
         _currentOffset = 0
         _currentLine = 1
         _currentColumn = 0

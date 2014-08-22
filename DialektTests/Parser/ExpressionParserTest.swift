@@ -13,7 +13,7 @@ class ExpressionParserTest: XCTestCase {
         self.parser = ExpressionParser()
     }
 
-// TODO: this relies on the renderer to be correct. i'll need to test that first.
+// TODO: this relies on the renderer and lexer to be correct. i'll need to test those first.
 //    func testParse() {
 //        for testVector in self.parseTestVectors() {
 //            let result = self.parser.parse(testVector.expression)
@@ -26,30 +26,30 @@ class ExpressionParserTest: XCTestCase {
 //        }
 //    }
 
-    func testPerformanceParse() {
-        self.measureBlock() {
-            for testVector in self.parseTestVectors() {
-                let result = self.parser.parse(testVector.expression)
-            }
-        }
-    }
+//    func testPerformanceParse() {
+//        self.measureBlock() {
+//            for testVector in self.parseTestVectors() {
+//                let result = self.parser.parse(testVector.expression)
+//            }
+//        }
+//    }
 
     // TODO: port more tests
 
     func parseTestVectors() -> [ParserTestVector] {
         return [
             ParserTestVector(
-                name: "Empty expression",
+                name: "empty expression",
                 expression: "",
                 expected: EmptyExpression()
             ),
             ParserTestVector(
-                name: "Single tag",
+                name: "single tag",
                 expression: "a",
                 expected: Tag("a")
             ),
             ParserTestVector(
-                name: "Tag pattern",
+                name: "tag pattern",
                 expression: "a*",
                 expected: Dialekt.Pattern(
                     PatternLiteral("a"),
@@ -57,7 +57,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Multiple tags",
+                name: "multiple tags",
                 expression: "a b c",
                 expected: LogicalAnd(
                     Tag("a"),
@@ -66,7 +66,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Multiple tags with nesting",
+                name: "multiple tags with nesting",
                 expression: "a (b c)",
                 expected: LogicalAnd(
                     Tag("a"),
@@ -77,7 +77,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Multiple nested groups remain nested",
+                name: "multiple nested groups remain nested",
                 expression: "(a b) (c d)",
                 expected: LogicalAnd(
                     LogicalAnd(
@@ -91,7 +91,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical and",
+                name: "logical and",
                 expression: "a AND b",
                 expected: LogicalAnd(
                     Tag("a"),
@@ -99,7 +99,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical and chained",
+                name: "logical and chained",
                 expression: "a AND b AND c",
                 expected: LogicalAnd(
                     Tag("a"),
@@ -116,7 +116,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical or chained",
+                name: "logical or chained",
                 expression: "a OR b OR c",
                 expected: LogicalOr(
                     Tag("a"),
@@ -125,7 +125,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical not",
+                name: "logical not",
                 expression: "NOT a",
                 expected: LogicalNot(
                     Tag("a")
@@ -141,7 +141,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical operator implicit precedence 1",
+                name: "logical operator implicit precedence 1",
                 expression: "a OR b AND c",
                 expected: LogicalOr(
                     Tag("a"),
@@ -152,7 +152,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical operator implicit precedence 2",
+                name: "logical operator implicit precedence 2",
                 expression: "a AND b OR c",
                 expected: LogicalOr(
                     LogicalAnd(
@@ -163,7 +163,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical operator explicit precedence 1",
+                name: "logical operator explicit precedence 1",
                 expression: "(a OR b) AND c",
                 expected: LogicalAnd(
                     LogicalOr(
@@ -174,7 +174,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical operator explicit precedence 2",
+                name: "logical operator explicit precedence 2",
                 expression: "a AND (b OR c)",
                 expected: LogicalAnd(
                     Tag("a"),
@@ -185,7 +185,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical not implicit precedence",
+                name: "logical not implicit precedence",
                 expression: "NOT a AND b",
                 expected: LogicalAnd(
                     LogicalNot(
@@ -195,7 +195,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Logical not explicit precedence",
+                name: "logical not explicit precedence",
                 expression: "NOT (a AND b)",
                 expected: LogicalNot(
                     LogicalAnd(
@@ -205,7 +205,7 @@ class ExpressionParserTest: XCTestCase {
                 )
             ),
             ParserTestVector(
-                name: "Complex nested",
+                name: "complex nested",
                 expression: "a ((b OR c) AND (d OR e)) f",
                 expected: LogicalAnd(
                     Tag("a"),
