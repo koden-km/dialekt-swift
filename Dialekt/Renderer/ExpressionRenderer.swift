@@ -93,7 +93,7 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
             }
         }
 
-        if string != escapedString || escapedString.rangeOfCharacterFromSet(NSCharacterSet.whitespaceCharacterSet()) != nil {
+        if string != escapedString || escapedString.rangeOfCharacterFromSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != nil {
             return "\"" + escapedString + "\""
         }
 

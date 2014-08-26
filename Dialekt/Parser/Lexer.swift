@@ -21,14 +21,15 @@ public class Lexer: LexerProtocol {
 		_nextToken = nil
 		_buffer = ""
 
-		let length = countElements(expression)
 		var currentChar: Character = "\0"
 		var previousChar: Character = "\0"
 
-        for currentChar in expression {
+        for unicodeScalar in expression.unicodeScalars {
+            currentChar = Character(unicodeScalar)
+
             _currentColumn++
 
-            if "\n" == previousChar || ("\r" == previousChar && "\n" == currentChar) {
+            if "\n" == previousChar || ("\r" == previousChar && "\n" != currentChar) {
                 _currentLine++
                 _currentColumn = 1
             }
@@ -36,7 +37,7 @@ public class Lexer: LexerProtocol {
             switch _state {
             case .SimpleString:
                 handleSimpleStringState(currentChar)
-            case .QuotedString:currentChar
+            case .QuotedString:
                 handleQuotedStringState(currentChar)
             case .QuotedStringEscape:
                 handleQuotedStringEscapeState(currentChar)
@@ -160,8 +161,10 @@ public class Lexer: LexerProtocol {
 	}
 
     private func characterIsWhitespace(character: Character) -> Bool {
-        let result = String(character).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        return !result.isEmpty
+        let result = String(character).stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        )
+        return result.isEmpty
     }
 
     private var _currentOffset: Int
