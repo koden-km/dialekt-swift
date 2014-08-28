@@ -12,7 +12,7 @@ public class Lexer: LexerProtocol {
     }
 
     /// Tokenize an expression.
-    public func lex(expression: String) -> [Token] {
+    public func lex(expression: String) -> [Token]! {
 		_currentOffset = 0
 		_currentLine = 1
 		_currentColumn = 0
@@ -52,9 +52,15 @@ public class Lexer: LexerProtocol {
         if _state == State.SimpleString {
             finalizeSimpleString()
         } else if _state == State.QuotedString {
-            fatalError("Expected closing quote.")
+            // TODO: Implement a Result<T>/Failable<T> return type.
+            // throw ParseException "Expected closing quote."
+            // fatalError("Expected closing quote.")
+            return nil
         } else if _state == State.QuotedStringEscape {
-            fatalError("Expected character after backslash.")
+            // TODO: Implement a Result<T>/Failable<T> return type.
+            // throw ParseException "Expected character after backslash."
+            // fatalError("Expected character after backslash.")
+            return nil
         }
 
         return _tokens

@@ -42,7 +42,8 @@ public class ListParser: AbstractParser, ParserProtocol {
             expectToken(TokenType.Text)
 
             if _currentToken!.value.rangeOfString(wildcardString) != nil {
-                // TODO: throw "Unexpected wildcard string \"" + wildcardString + "\", in tag \"" + _currentToken!.value + "\"."
+                // TODO: Implement a Result<T>/Failable<T> return type.
+                // throw Exception "Unexpected wildcard string \"" + wildcardString + "\", in tag \"" + _currentToken!.value + "\"."
 				fatalError("Unexpected wildcard string in tag.")
             }
 

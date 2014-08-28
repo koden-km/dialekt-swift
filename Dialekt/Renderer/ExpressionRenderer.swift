@@ -52,7 +52,8 @@ public class ExpressionRenderer: RendererProtocol, VisitorProtocol {
     /// Visit a PatternLiteral node.
     public func visit(node: PatternLiteral) -> String! {
         if node.string().rangeOfString(_wildcardString, options: NSStringCompareOptions.LiteralSearch) != nil {
-            // throw exception "The pattern literal \"" + node.string() + "\" contains the wildcard string \"" + _wildcardString + "\"."
+            // TODO: Implement a Result<T>/Failable<T> return type.
+            // throw Exception "The pattern literal \"" + node.string() + "\" contains the wildcard string \"" + _wildcardString + "\"."
             // fatalError("The pattern literal contains the wildcard string.")
             return nil
         }

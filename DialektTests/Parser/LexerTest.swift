@@ -27,6 +27,16 @@ class LexerTest: XCTestCase {
         }
     }
 
+    func testLexFailureInQuotedString() {
+        let result = self.lexer.lex("\"foo")
+        XCTAssertNil(result)
+    }
+
+    func testLexFailureInQuotedStringEscape() {
+        let result = self.lexer.lex("\"foo\\")
+        XCTAssertNil(result)
+    }
+
     func lexTestVectors() -> [LexTestVector] {
         return [
             LexTestVector(
