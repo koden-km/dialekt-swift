@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A1B7C6D1999F8AA00092E96 /* ExpressionResultTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1B7C6C1999F8AA00092E96 /* ExpressionResultTest.swift */; };
 		0A21F6F7199CE6970095FFCF /* EvaluatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21F6F6199CE6970095FFCF /* EvaluatorTest.swift */; };
+		0A5049AE19AD323C009A3918 /* TreeRendererTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5049AD19AD323C009A3918 /* TreeRendererTest.swift */; };
 		0A7F9C47199250750024D353 /* PatternWildcardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F9C46199250750024D353 /* PatternWildcardTest.swift */; };
 		0A7F9C49199251680024D353 /* TagTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F9C48199251680024D353 /* TagTest.swift */; };
 		0A7F9C4B199253360024D353 /* EvaluationResultTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F9C4A199253360024D353 /* EvaluationResultTest.swift */; };
@@ -101,6 +102,7 @@
 /* Begin PBXFileReference section */
 		0A1B7C6C1999F8AA00092E96 /* ExpressionResultTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionResultTest.swift; sourceTree = "<group>"; };
 		0A21F6F6199CE6970095FFCF /* EvaluatorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvaluatorTest.swift; path = DialektTests/Evaluator/EvaluatorTest.swift; sourceTree = SOURCE_ROOT; };
+		0A5049AD19AD323C009A3918 /* TreeRendererTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeRendererTest.swift; sourceTree = "<group>"; };
 		0A7F9C46199250750024D353 /* PatternWildcardTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternWildcardTest.swift; sourceTree = "<group>"; };
 		0A7F9C48199251680024D353 /* TagTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTest.swift; sourceTree = "<group>"; };
 		0A7F9C4A199253360024D353 /* EvaluationResultTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationResultTest.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				0AF15D1119A55EE7001C41E9 /* ExpressionRendererTest.swift */,
+				0A5049AD19AD323C009A3918 /* TreeRendererTest.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				0AF7E33919A3538600E2CFAD /* ExpressionParserTest.swift in Sources */,
 				0A88D9FA19920B00005939D4 /* PatternTest.swift in Sources */,
 				0A88D9F619920537005939D4 /* LogicalNotTest.swift in Sources */,
+				0A5049AE19AD323C009A3918 /* TreeRendererTest.swift in Sources */,
 				0ADAD0F5198F8D2F009D7537 /* EmptyExpressionTest.swift in Sources */,
 				0A88D9F219918958005939D4 /* LogicalAndTest.swift in Sources */,
 				0A978A4C19A6B6680030393C /* LexerTest.swift in Sources */,

@@ -59,7 +59,7 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
 
     /// Visit a PatternLiteral node.
     public func visit(node: PatternLiteral) -> String {
-        return "LITTERAL" + encodeString(node.string())
+        return "LITERAL " + encodeString(node.string())
     }
 
     /// Visit a PatternWildcard node.
@@ -85,7 +85,7 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
     }
 
     private func indent(string: String) -> String {
-        return " " + string.stringByReplacingOccurrencesOfString(
+        return "  " + string.stringByReplacingOccurrencesOfString(
             _endOfLine,
             withString: " " + _endOfLine,
             options: NSStringCompareOptions.LiteralSearch
@@ -93,18 +93,34 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
     }
 
     private func encodeString(string: String) -> String {
-        let jsonObj: AnyObject = string
-        var e: NSError?
-        let jsonData = NSJSONSerialization.dataWithJSONObject(
-            jsonObj,
-            options: NSJSONWritingOptions(0),
-            error: &e
-        )
-        if e == nil {
-            return ""
-        } else {
-            return NSString(data: jsonData!, encoding: NSUTF8StringEncoding)
+        // Swift/Objective-C json encoding keeps throwing exceptions and requires the string being inside an Array?
+        // I found this solution on Stack Overflow.
+        // See: http://stackoverflow.com/questions/3020094/how-should-i-escape-strings-in-json
+        var escapedString = ""
+        escapedString += "\""
+        for char in string {
+            if char == "\\" || char == "\"" {
+                escapedString += "\\" + char
+            } else if char == "/" {
+                escapedString += "\\" + char
+            } else if char == "\t" {
+                escapedString += "\\t"
+            } else if char == "\n" {
+                escapedString += "\\n"
+            } else if char == "\r" {
+                escapedString += "\\r"
+            // Swift does not allow this?
+            // } else if char == "\b" {
+            //    escapedString += "\\b"
+            // Swift does not allow this?
+            // } else if char == "\f" {
+            //    escapedString += "\\f"
+            } else {
+                escapedString.append(char)
+            }
         }
+        escapedString += "\""
+        return escapedString
     }
 
     private let _endOfLine: String
