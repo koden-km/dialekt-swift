@@ -93,9 +93,9 @@ public class TreeRenderer: RendererProtocol, VisitorProtocol {
     }
 
     private func encodeString(string: String) -> String {
-        // Swift/Objective-C json encoding keeps throwing exceptions and requires the string being inside an Array?
-        // I found this solution on Stack Overflow.
-        // See: http://stackoverflow.com/questions/3020094/how-should-i-escape-strings-in-json
+        // Swift/Objective-C json encoding keeps throwing exceptions and requires the string to be inside an Array?
+        // I found this solution on Stack Overflow:
+        // http://stackoverflow.com/questions/3020094/how-should-i-escape-strings-in-json
         var escapedString = ""
         escapedString += "\""
         for char in string {

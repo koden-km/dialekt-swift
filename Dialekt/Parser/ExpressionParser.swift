@@ -1,41 +1,48 @@
-import Foundation
-
 public class ExpressionParser: AbstractParser {
     public var logicalOrByDefault = false
 
-    internal override func parseExpression() -> ExpressionProtocol {
+    internal override func parseExpression() -> AbstractExpression! {
         startExpression()
 
         var expression = parseUnaryExpression()
-        expression = parseCompoundExpression(expression)
+        if expression != nil {
+            expression = parseCompoundExpression(expression)
+        }
+        if expression == nil {
+            return nil
+        }
 
         endExpression(expression)
+
         return expression
     }
 
-    private func parseUnaryExpression() -> ExpressionProtocol {
-        expectToken(
+    private func parseUnaryExpression() -> AbstractExpression! {
+        let foundExpected = expectToken(
             TokenType.Text,
             TokenType.LogicalNot,
             TokenType.OpenBracket
         )
+        if !foundExpected {
+            return nil
+        }
 
-        if TokenType.LogicalNot == _currentToken?.tokenType {
+        if TokenType.LogicalNot == _currentToken.tokenType {
             return parseLogicalNot()
-        } else if TokenType.OpenBracket == _currentToken?.tokenType {
+        } else if TokenType.OpenBracket == _currentToken.tokenType {
             return parseNestedExpression()
-        } else if _currentToken?.value.rangeOfString(wildcardString, options: NSStringCompareOptions.LiteralSearch) == nil {
+        } else if _currentToken.value.rangeOfString(wildcardString, options: NSStringCompareOptions.LiteralSearch) == nil {
             return parseTag()
         } else {
             return parsePattern()
         }
     }
 
-    private func parseTag() -> ExpressionProtocol {
+    private func parseTag() -> AbstractExpression {
         startExpression()
 
         let expression = Tag(
-            _currentToken!.value
+            _currentToken.value
         )
 
         nextToken()
@@ -45,30 +52,29 @@ public class ExpressionParser: AbstractParser {
         return expression
     }
 
-    private func parsePattern() -> ExpressionProtocol {
+    private func parsePattern() -> AbstractExpression {
         startExpression()
 
-        let pattern = "/(" + NSRegularExpression.escapedPatternForString(wildcardString) + ")/"
-        let regex = NSRegularExpression.regularExpressionWithPattern(
-            pattern,
-            options: NSRegularExpressionOptions(0),
-            error: nil
-        )
-
-        let parts = regex?.matchesInString(
-            _currentToken!.value,
-            options: NSMatchingOptions.Anchored,
-            range: NSRangeFromString(_currentToken!.value)
-        )
+        // Note:
+        // Could not get regex to escape wildcardString correctly for splitting with capture.
+        // Using string split for now.
+        let parts = _currentToken.value.componentsSeparatedByString(wildcardString)
 
         let expression = Pattern()
 
-        for value in parts as [String] {
-            if wildcardString == value {
+        if _currentToken.value.hasPrefix(wildcardString) {
+            expression.add(PatternWildcard())
+        }
+        var chunks = parts.count - 1
+        for value in parts {
+            expression.add(PatternLiteral(value))
+            if chunks > 1 {
+                --chunks
                 expression.add(PatternWildcard())
-            } else {
-                expression.add(PatternLiteral(value))
             }
+        }
+        if _currentToken.value.hasSuffix(wildcardString) {
+            expression.add(PatternWildcard())
         }
 
         nextToken()
@@ -78,14 +84,20 @@ public class ExpressionParser: AbstractParser {
         return expression
     }
 
-    private func parseNestedExpression() -> ExpressionProtocol {
+    private func parseNestedExpression() -> AbstractExpression! {
         startExpression()
 
         nextToken()
 
         let expression = parseExpression()
+        if expression == nil {
+            return nil
+        }
 
-        expectToken(TokenType.CloseBracket)
+        let foundExpected = expectToken(TokenType.CloseBracket)
+        if !foundExpected {
+            return nil
+        }
 
         nextToken()
 
@@ -94,7 +106,7 @@ public class ExpressionParser: AbstractParser {
         return expression
     }
 
-    private func parseLogicalNot() -> ExpressionProtocol {
+    private func parseLogicalNot() -> AbstractExpression {
         startExpression()
 
         nextToken()
@@ -108,8 +120,8 @@ public class ExpressionParser: AbstractParser {
         return expression
     }
 
-    private func parseCompoundExpression(expression: ExpressionProtocol, minimumPrecedence: Int = 0) -> ExpressionProtocol {
-        var leftExpressison = expression
+    private func parseCompoundExpression(expression: ExpressionProtocol, minimumPrecedence: Int = 0) -> AbstractExpression! {
+        var leftExpression = expression
         var allowCollapse = false
 
         while true {
@@ -130,6 +142,9 @@ public class ExpressionParser: AbstractParser {
 
             // Parse the expression to the right of the operator ...
             var rightExpression = parseUnaryExpression()
+            if rightExpression == nil {
+                return nil
+            }
 
             // Only parse additional compound expressions if their precedence is greater than the
             // expression already being parsed ...
@@ -137,19 +152,33 @@ public class ExpressionParser: AbstractParser {
 
             if precedence < operatorPrecedence(nextOperator) {
                 rightExpression = parseCompoundExpression(rightExpression, minimumPrecedence: precedence + 1)
+                if rightExpression == nil {
+                    return nil
+                }
             }
 
             // Combine the parsed expression with the existing expression ...
             // Collapse the expression into an existing expression of the same type ...
-            if allowCollapse && oper == TokenType.LogicalAnd && leftExpressison is LogicalAnd {
-                (leftExpressison as LogicalAnd).add(rightExpression)
+            if oper == TokenType.LogicalAnd {
+                if allowCollapse && leftExpression is LogicalAnd {
+                    (leftExpression as LogicalAnd).add(rightExpression)
+                } else {
+                    leftExpression = LogicalAnd(leftExpression, rightExpression)
+                    allowCollapse = true
+                }
+            } else if oper == TokenType.LogicalOr {
+                if allowCollapse && leftExpression is LogicalOr {
+                    (leftExpression as LogicalOr).add(rightExpression)
+                } else {
+                    leftExpression = LogicalOr(leftExpression, rightExpression)
+                    allowCollapse = true
+                }
             } else {
-                leftExpressison = LogicalOr(leftExpressison, rightExpression)
-                allowCollapse = true
+                fatalError("Unknown operator type.")
             }
         }
 
-        return leftExpressison
+        return leftExpression as AbstractExpression
     }
 
     private func parseOperator() -> (oper: TokenType?, isExplicit: Bool) {
@@ -157,13 +186,13 @@ public class ExpressionParser: AbstractParser {
         if _currentToken == nil {
             return (nil, false)
         // Closing bracket ...
-        } else if TokenType.CloseBracket == _currentToken?.tokenType {
+        } else if TokenType.CloseBracket == _currentToken.tokenType {
             return (nil, false)
         // Explicit logical OR ...
-        } else if TokenType.LogicalOr == _currentToken?.tokenType {
+        } else if TokenType.LogicalOr == _currentToken.tokenType {
             return (TokenType.LogicalOr, true)
         // Explicit logical AND ...
-        } else if TokenType.LogicalAnd == _currentToken?.tokenType {
+        } else if TokenType.LogicalAnd == _currentToken.tokenType {
             return (TokenType.LogicalAnd, true)
         // Implicit logical OR ...
         } else if logicalOrByDefault {

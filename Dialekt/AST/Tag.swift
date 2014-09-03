@@ -2,8 +2,8 @@
 public class Tag: AbstractExpression, ExpressionProtocol {
     public init(_ name: String) {
         _name = name
-        
-        // TODO: Should this call super.init() ?
+
+        super.init()
     }
 
     /// Fetch the tag name.

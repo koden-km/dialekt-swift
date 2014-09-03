@@ -3,10 +3,10 @@
 /// Not all nodes in the tree represent an entire (sub-)expression.
 public protocol ExpressionProtocol: NodeProtocol {
     /// Fetch the first token from the source that is part of this expression.
-    func firstToken() -> Token?
+    func firstToken() -> Token!
 
     /// Fetch the last token from the source that is part of this expression.
-    func lastToken() -> Token?
+    func lastToken() -> Token!
 
     /// Set the delimiting tokens for this expression.
     func setTokens(firstToken: Token, _ lastToken: Token)

@@ -52,12 +52,12 @@ public class Lexer: LexerProtocol {
         if _state == State.SimpleString {
             finalizeSimpleString()
         } else if _state == State.QuotedString {
-            // TODO: Implement a Result<T>/Failable<T> return type.
+            // Implement a Result<T>/Failable<T> return type.
             // throw ParseException "Expected closing quote."
             // fatalError("Expected closing quote.")
             return nil
         } else if _state == State.QuotedStringEscape {
-            // TODO: Implement a Result<T>/Failable<T> return type.
+            // Implement a Result<T>/Failable<T> return type.
             // throw ParseException "Expected character after backslash."
             // fatalError("Expected character after backslash.")
             return nil

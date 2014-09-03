@@ -6,12 +6,12 @@ public class AbstractExpression: ExpressionProtocol {
     }
 
     /// Fetch the first token from the source that is part of this expression.
-    public func firstToken() -> Token? {
+    public func firstToken() -> Token! {
         return _firstToken
     }
 
     /// Fetch the last token from the source that is part of this expression.
-    public func lastToken() -> Token? {
+    public func lastToken() -> Token! {
         return _lastToken
     }
 
@@ -33,8 +33,8 @@ public class AbstractExpression: ExpressionProtocol {
         return visitor.visit(EmptyExpression())
     }
 
-    private var _firstToken: Token? = nil
-    private var _lastToken: Token? = nil
+    private var _firstToken: Token! = nil
+    private var _lastToken: Token! = nil
     private var _hashValue: Int = 0
 
     internal struct HashSequence {
@@ -47,8 +47,7 @@ public class AbstractExpression: ExpressionProtocol {
 
 /// MARK: Equatable
 
-extension AbstractExpression: Equatable {
-}
+extension AbstractExpression: Equatable { }
 
 public func ==(lhs: AbstractExpression, rhs: AbstractExpression) -> Bool {
     return lhs === rhs
